@@ -151,7 +151,7 @@
 
             border-radius: 25px;
 
-            font-size: clamp(34px, 8vw, 52px);
+            font-size: clamp(32px, 8vw, 52px);
             font-weight: 800;
 
             margin-bottom: 34px;
@@ -173,6 +173,15 @@
                 0 0 25px rgba(14, 203, 129, 0.08);
         }
 
+        .compra-fuerte {
+            background: rgba(14, 203, 129, 0.22);
+            color: #00ff9d;
+            border: 3px solid #00ff9d;
+
+            box-shadow:
+                0 0 30px rgba(14, 203, 129, 0.18);
+        }
+
         .venta {
             background: rgba(246, 70, 93, 0.15);
             color: #f6465d;
@@ -180,6 +189,15 @@
 
             box-shadow:
                 0 0 25px rgba(246, 70, 93, 0.08);
+        }
+
+        .venta-fuerte {
+            background: rgba(246, 70, 93, 0.22);
+            color: #ff304f;
+            border: 3px solid #ff304f;
+
+            box-shadow:
+                0 0 30px rgba(246, 70, 93, 0.18);
         }
 
         .espera {
@@ -198,6 +216,102 @@
         }
 
         /* =========================
+           SECCIÓN OPERATIVA
+        ========================= */
+
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 8px;
+
+            color: #f0b90b;
+
+            font-size: 19px;
+            font-weight: 800;
+
+            text-align: left;
+        }
+
+        .trade-box {
+            margin-top: 12px;
+
+            padding: 18px;
+
+            background: #15191f;
+
+            border: 1px solid #303641;
+
+            border-radius: 18px;
+        }
+
+        .trade-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #303641;
+        }
+
+        .trade-row:last-child {
+            border-bottom: none;
+        }
+
+        .trade-label {
+            color: #929aaa;
+            font-size: 17px;
+        }
+
+        .trade-value {
+            font-size: 21px;
+            font-weight: 800;
+            text-align: right;
+        }
+
+        .entry-value {
+            color: #ffffff;
+        }
+
+        .sl-value {
+            color: #f6465d;
+        }
+
+        .tp-value {
+            color: #0ecb81;
+        }
+
+        /* =========================
+           CONFIANZA
+        ========================= */
+
+        .confidence-box {
+            margin-top: 15px;
+            padding: 17px;
+
+            background: rgba(240, 185, 11, 0.07);
+
+            border: 1px solid #303641;
+
+            border-radius: 18px;
+
+            text-align: center;
+        }
+
+        .confidence-label {
+            color: #929aaa;
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .confidence-value {
+            color: #f0b90b;
+            font-size: 31px;
+            font-weight: 800;
+        }
+
+        /* =========================
            DATOS
         ========================= */
 
@@ -209,7 +323,7 @@
 
             gap: 20px;
 
-            min-height: 72px;
+            min-height: 68px;
 
             padding: 15px 0;
 
@@ -229,7 +343,7 @@
             text-align: right;
         }
 
-        /* Precio más grande */
+        /* Precio */
 
         .price-row {
             min-height: 95px;
@@ -242,6 +356,48 @@
         .price-row .data-value {
             font-size: clamp(31px, 7vw, 46px);
             font-weight: 800;
+        }
+
+        /* =========================
+           MOTIVOS
+        ========================= */
+
+        .reasons-box {
+            margin-top: 20px;
+
+            padding: 18px;
+
+            background: #15191f;
+
+            border: 1px solid #303641;
+
+            border-radius: 18px;
+        }
+
+        .reasons-title {
+            color: #f0b90b;
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+        .reason-item {
+            color: #c7ccd5;
+
+            font-size: 15px;
+
+            line-height: 1.5;
+
+            padding: 7px 0;
+
+            border-bottom: 1px solid #252b33;
+        }
+
+        .reason-item:last-child {
+            border-bottom: none;
         }
 
         /* =========================
@@ -332,7 +488,7 @@
         }
 
         /* =========================
-           MENSAJE ERROR
+           ERROR
         ========================= */
 
         .error-message {
@@ -392,11 +548,11 @@
                 min-height: 120px;
                 border-radius: 23px;
                 margin-bottom: 25px;
-                font-size: 39px;
+                font-size: 36px;
             }
 
             .data-row {
-                min-height: 72px;
+                min-height: 68px;
                 padding: 14px 0;
             }
 
@@ -406,6 +562,18 @@
 
             .price-row .data-value {
                 font-size: 34px;
+            }
+
+            .trade-box {
+                padding: 15px;
+            }
+
+            .trade-label {
+                font-size: 15px;
+            }
+
+            .trade-value {
+                font-size: 19px;
             }
         }
 
@@ -426,7 +594,15 @@
             }
 
             .signal-badge {
-                font-size: 33px;
+                font-size: 31px;
+            }
+
+            .trade-label {
+                font-size: 14px;
+            }
+
+            .trade-value {
+                font-size: 17px;
             }
         }
     </style>
@@ -475,7 +651,9 @@
         class="card-result"
     >
 
-        <!-- SEÑAL -->
+        <!-- =====================
+             SEÑAL
+        ====================== -->
 
         <div
             id="signalBadge"
@@ -485,7 +663,9 @@
         </div>
 
 
-        <!-- ACTIVO -->
+        <!-- =====================
+             ACTIVO
+        ====================== -->
 
         <div class="data-row">
 
@@ -503,7 +683,9 @@
         </div>
 
 
-        <!-- PRECIO -->
+        <!-- =====================
+             PRECIO
+        ====================== -->
 
         <div class="data-row price-row">
 
@@ -521,7 +703,125 @@
         </div>
 
 
-        <!-- EMA -->
+        <!-- =====================
+             ENTRADA / SL / TP
+        ====================== -->
+
+        <div class="section-title">
+            🎯 NIVELES DE OPERACIÓN
+        </div>
+
+        <div class="trade-box">
+
+            <div class="trade-row">
+
+                <span class="trade-label">
+                    Precio entrada
+                </span>
+
+                <span
+                    id="valEntry"
+                    class="trade-value entry-value"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="trade-row">
+
+                <span class="trade-label">
+                    🛑 Stop Loss
+                </span>
+
+                <span
+                    id="valSL"
+                    class="trade-value sl-value"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="trade-row">
+
+                <span class="trade-label">
+                    🎯 Take Profit 1
+                </span>
+
+                <span
+                    id="valTP1"
+                    class="trade-value tp-value"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="trade-row">
+
+                <span class="trade-label">
+                    🎯 Take Profit 2
+                </span>
+
+                <span
+                    id="valTP2"
+                    class="trade-value tp-value"
+                >
+                    --
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             CONFIANZA
+        ====================== -->
+
+        <div class="confidence-box">
+
+            <div class="confidence-label">
+                📊 Confianza de la señal
+            </div>
+
+            <div
+                id="valConfidence"
+                class="confidence-value"
+            >
+                --%
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             TENDENCIA
+        ====================== -->
+
+        <div class="data-row">
+
+            <span class="data-label">
+                📈 Tendencia:
+            </span>
+
+            <span
+                id="valTrend"
+                class="data-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <!-- =====================
+             EMA 9
+        ====================== -->
 
         <div class="data-row">
 
@@ -539,7 +839,29 @@
         </div>
 
 
-        <!-- RSI -->
+        <!-- =====================
+             EMA 21
+        ====================== -->
+
+        <div class="data-row">
+
+            <span class="data-label">
+                EMA 21:
+            </span>
+
+            <span
+                id="valEma21"
+                class="data-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <!-- =====================
+             RSI
+        ====================== -->
 
         <div class="data-row">
 
@@ -557,7 +879,29 @@
         </div>
 
 
-        <!-- BANDA INFERIOR -->
+        <!-- =====================
+             ATR
+        ====================== -->
+
+        <div class="data-row">
+
+            <span class="data-label">
+                ATR:
+            </span>
+
+            <span
+                id="valAtr"
+                class="data-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <!-- =====================
+             BANDA INFERIOR
+        ====================== -->
 
         <div class="data-row">
 
@@ -575,7 +919,29 @@
         </div>
 
 
-        <!-- BANDA SUPERIOR -->
+        <!-- =====================
+             BANDA MEDIA
+        ====================== -->
+
+        <div class="data-row">
+
+            <span class="data-label">
+                Banda media:
+            </span>
+
+            <span
+                id="valMiddle"
+                class="data-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <!-- =====================
+             BANDA SUPERIOR
+        ====================== -->
 
         <div class="data-row">
 
@@ -593,7 +959,61 @@
         </div>
 
 
-        <!-- TIMEFRAME -->
+        <!-- =====================
+             PUNTOS
+        ====================== -->
+
+        <div class="data-row">
+
+            <span class="data-label">
+                🟢 Puntos compra:
+            </span>
+
+            <span
+                id="valBuyPoints"
+                class="data-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <div class="data-row">
+
+            <span class="data-label">
+                🔴 Puntos venta:
+            </span>
+
+            <span
+                id="valSellPoints"
+                class="data-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <div class="data-row">
+
+            <span class="data-label">
+                Diferencia:
+            </span>
+
+            <span
+                id="valDifference"
+                class="data-value"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <!-- =====================
+             TIMEFRAME
+        ====================== -->
 
         <div class="data-row">
 
@@ -611,7 +1031,9 @@
         </div>
 
 
-        <!-- PLATAFORMA -->
+        <!-- =====================
+             PLATAFORMA
+        ====================== -->
 
         <div class="data-row">
 
@@ -619,14 +1041,38 @@
                 Plataforma:
             </span>
 
-            <span class="data-value">
+            <span
+                id="valPlatform"
+                class="data-value"
+            >
                 MetaTrader 5
             </span>
 
         </div>
 
 
-        <!-- ESTADO API -->
+        <!-- =====================
+             MOTIVOS
+        ====================== -->
+
+        <div class="reasons-box">
+
+            <div class="reasons-title">
+                🧠 Motivos del análisis
+            </div>
+
+            <div id="reasonsContent">
+                <div class="reason-item">
+                    Esperando análisis...
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             ESTADO API
+        ====================== -->
 
         <div
             id="apiStatus"
@@ -639,13 +1085,15 @@
             ></span>
 
             <span id="statusText">
-                API conectada
+                Conectando...
             </span>
 
         </div>
 
 
-        <!-- CUENTA REGRESIVA -->
+        <!-- =====================
+             CUENTA REGRESIVA
+        ====================== -->
 
         <div
             id="countdown"
@@ -655,7 +1103,9 @@
         </div>
 
 
-        <!-- ÚLTIMA CONSULTA -->
+        <!-- =====================
+             ÚLTIMA CONSULTA
+        ====================== -->
 
         <div
             id="valTime"
@@ -665,7 +1115,9 @@
         </div>
 
 
-        <!-- ERROR -->
+        <!-- =====================
+             ERROR
+        ====================== -->
 
         <div
             id="errorMessage"
@@ -685,10 +1137,29 @@
        TELEGRAM WEB APP
     ===================================================== */
 
-    const tg = window.Telegram.WebApp;
+    const tg =
+        window.Telegram &&
+        window.Telegram.WebApp
+            ? window.Telegram.WebApp
+            : null;
 
-    tg.ready();
-    tg.expand();
+
+    if (tg) {
+
+        try {
+
+            tg.ready();
+            tg.expand();
+
+        } catch (e) {
+
+            console.log(
+                "Telegram WebApp no disponible"
+            );
+
+        }
+
+    }
 
 
     /* =====================================================
@@ -699,20 +1170,17 @@
         "https://api-xauusd-bot.onrender.com/";
 
 
-    /*
-     * Intervalo automático:
-     *
-     * 60 segundos = 60000 ms
-     */
-
     const UPDATE_INTERVAL = 60;
 
 
-    let countdownSeconds = UPDATE_INTERVAL;
+    let countdownSeconds =
+        UPDATE_INTERVAL;
 
-    let countdownTimer = null;
+    let countdownTimer =
+        null;
 
-    let isLoading = false;
+    let isLoading =
+        false;
 
 
     /* =====================================================
@@ -720,49 +1188,149 @@
     ===================================================== */
 
     const card =
-        document.getElementById("cardResult");
+        document.getElementById(
+            "cardResult"
+        );
 
     const badge =
-        document.getElementById("signalBadge");
+        document.getElementById(
+            "signalBadge"
+        );
 
     const priceElem =
-        document.getElementById("valPrice");
+        document.getElementById(
+            "valPrice"
+        );
+
+    const entryElem =
+        document.getElementById(
+            "valEntry"
+        );
+
+    const slElem =
+        document.getElementById(
+            "valSL"
+        );
+
+    const tp1Elem =
+        document.getElementById(
+            "valTP1"
+        );
+
+    const tp2Elem =
+        document.getElementById(
+            "valTP2"
+        );
+
+    const confidenceElem =
+        document.getElementById(
+            "valConfidence"
+        );
+
+    const trendElem =
+        document.getElementById(
+            "valTrend"
+        );
 
     const emaElem =
-        document.getElementById("valEma");
+        document.getElementById(
+            "valEma"
+        );
+
+    const ema21Elem =
+        document.getElementById(
+            "valEma21"
+        );
 
     const rsiElem =
-        document.getElementById("valRsi");
+        document.getElementById(
+            "valRsi"
+        );
+
+    const atrElem =
+        document.getElementById(
+            "valAtr"
+        );
 
     const lowerElem =
-        document.getElementById("valLower");
+        document.getElementById(
+            "valLower"
+        );
+
+    const middleElem =
+        document.getElementById(
+            "valMiddle"
+        );
 
     const upperElem =
-        document.getElementById("valUpper");
+        document.getElementById(
+            "valUpper"
+        );
+
+    const buyPointsElem =
+        document.getElementById(
+            "valBuyPoints"
+        );
+
+    const sellPointsElem =
+        document.getElementById(
+            "valSellPoints"
+        );
+
+    const differenceElem =
+        document.getElementById(
+            "valDifference"
+        );
 
     const timeframeElem =
-        document.getElementById("valTimeframe");
+        document.getElementById(
+            "valTimeframe"
+        );
 
     const symbolElem =
-        document.getElementById("valSymbol");
+        document.getElementById(
+            "valSymbol"
+        );
+
+    const platformElem =
+        document.getElementById(
+            "valPlatform"
+        );
+
+    const reasonsContent =
+        document.getElementById(
+            "reasonsContent"
+        );
 
     const timeElem =
-        document.getElementById("valTime");
+        document.getElementById(
+            "valTime"
+        );
 
     const countdownElem =
-        document.getElementById("countdown");
+        document.getElementById(
+            "countdown"
+        );
 
     const btn =
-        document.getElementById("btnAnalizar");
+        document.getElementById(
+            "btnAnalizar"
+        );
 
     const statusText =
-        document.getElementById("statusText");
+        document.getElementById(
+            "statusText"
+        );
 
     const statusDot =
-        document.getElementById("statusDot");
+        document.getElementById(
+            "statusDot"
+        );
 
     const errorMessage =
-        document.getElementById("errorMessage");
+        document.getElementById(
+            "errorMessage"
+        );
 
 
     /* =====================================================
@@ -771,7 +1339,8 @@
 
     function mostrarTarjeta() {
 
-        card.style.display = "block";
+        card.style.display =
+            "block";
 
     }
 
@@ -822,13 +1391,62 @@
         const n =
             parseFloat(valor);
 
-        if (isNaN(n)) {
+        if (
+            valor === null ||
+            valor === undefined ||
+            isNaN(n)
+        ) {
 
             return "--";
 
         }
 
         return n.toFixed(2);
+
+    }
+
+
+    function porcentaje(valor) {
+
+        const n =
+            parseFloat(valor);
+
+        if (
+            valor === null ||
+            valor === undefined ||
+            isNaN(n)
+        ) {
+
+            return "--%";
+
+        }
+
+        return n.toFixed(1) + "%";
+
+    }
+
+
+    /* =====================================================
+       HAPTIC TELEGRAM
+    ===================================================== */
+
+    function vibrar(tipo) {
+
+        try {
+
+            if (
+                tg &&
+                tg.HapticFeedback
+            ) {
+
+                tg.HapticFeedback
+                    .notificationOccurred(
+                        tipo
+                    );
+
+            }
+
+        } catch (e) {}
 
     }
 
@@ -841,8 +1459,62 @@
 
         const texto =
             String(signal || "")
-            .trim()
-            .toUpperCase();
+                .trim()
+                .toUpperCase();
+
+
+        /*
+         * COMPRA FUERTE
+         */
+
+        if (
+            texto.includes(
+                "COMPRA FUERTE"
+            ) ||
+            texto.includes(
+                "BUY STRONG"
+            )
+        ) {
+
+            badge.className =
+                "signal-badge compra-fuerte";
+
+            badge.innerText =
+                "COMPRA FUERTE 🟢";
+
+            vibrar(
+                "success"
+            );
+
+            return;
+        }
+
+
+        /*
+         * VENTA FUERTE
+         */
+
+        if (
+            texto.includes(
+                "VENTA FUERTE"
+            ) ||
+            texto.includes(
+                "SELL STRONG"
+            )
+        ) {
+
+            badge.className =
+                "signal-badge venta-fuerte";
+
+            badge.innerText =
+                "VENTA FUERTE 🔴";
+
+            vibrar(
+                "warning"
+            );
+
+            return;
+        }
 
 
         /*
@@ -850,8 +1522,12 @@
          */
 
         if (
-            texto.includes("COMPRA") ||
-            texto.includes("BUY")
+            texto.includes(
+                "COMPRA"
+            ) ||
+            texto.includes(
+                "BUY"
+            )
         ) {
 
             badge.className =
@@ -860,28 +1536,11 @@
             badge.innerText =
                 "COMPRA 🟢";
 
-
-            /*
-             * Vibración Telegram
-             */
-
-            try {
-
-                if (
-                    tg.HapticFeedback
-                ) {
-
-                    tg.HapticFeedback
-                        .notificationOccurred(
-                            "success"
-                        );
-
-                }
-
-            } catch (e) {}
+            vibrar(
+                "success"
+            );
 
             return;
-
         }
 
 
@@ -890,8 +1549,12 @@
          */
 
         if (
-            texto.includes("VENTA") ||
-            texto.includes("SELL")
+            texto.includes(
+                "VENTA"
+            ) ||
+            texto.includes(
+                "SELL"
+            )
         ) {
 
             badge.className =
@@ -900,24 +1563,11 @@
             badge.innerText =
                 "VENTA 🔴";
 
-
-            try {
-
-                if (
-                    tg.HapticFeedback
-                ) {
-
-                    tg.HapticFeedback
-                        .notificationOccurred(
-                            "warning"
-                        );
-
-                }
-
-            } catch (e) {}
+            vibrar(
+                "warning"
+            );
 
             return;
-
         }
 
 
@@ -935,6 +1585,96 @@
 
 
     /* =====================================================
+       MOSTRAR MOTIVOS
+    ===================================================== */
+
+    function mostrarMotivos(
+        razonesCompra,
+        razonesVenta
+    ) {
+
+        reasonsContent.innerHTML =
+            "";
+
+
+        const compra =
+            Array.isArray(
+                razonesCompra
+            )
+                ? razonesCompra
+                : [];
+
+
+        const venta =
+            Array.isArray(
+                razonesVenta
+            )
+                ? razonesVenta
+                : [];
+
+
+        if (
+            compra.length === 0 &&
+            venta.length === 0
+        ) {
+
+            reasonsContent.innerHTML =
+                '<div class="reason-item">' +
+                'Sin motivos disponibles.' +
+                '</div>';
+
+            return;
+
+        }
+
+
+        compra.forEach(
+            function (razon) {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+                div.className =
+                    "reason-item";
+
+                div.innerText =
+                    "🟢 " + razon;
+
+                reasonsContent.appendChild(
+                    div
+                );
+
+            }
+        );
+
+
+        venta.forEach(
+            function (razon) {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+                div.className =
+                    "reason-item";
+
+                div.innerText =
+                    "🔴 " + razon;
+
+                reasonsContent.appendChild(
+                    div
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
        BUSCAR SEÑAL
     ===================================================== */
 
@@ -947,7 +1687,9 @@
         }
 
 
-        isLoading = true;
+        isLoading =
+            true;
+
 
         mostrarTarjeta();
 
@@ -963,7 +1705,8 @@
             "ANALIZANDO... ⏳";
 
 
-        btn.disabled = true;
+        btn.disabled =
+            true;
 
         btn.innerText =
             "ANALIZANDO...";
@@ -972,7 +1715,7 @@
         try {
 
             /*
-             * Evitamos caché del navegador
+             * Evitar caché
              */
 
             const url =
@@ -1018,13 +1761,8 @@
 
 
             /* =========================================
-               LEER DATOS
+               DATOS PRINCIPALES
             ========================================= */
-
-
-            /*
-             * Precio
-             */
 
             const price =
                 data.price ??
@@ -1032,67 +1770,16 @@
                 0;
 
 
-            /*
-             * Señal
-             */
-
             const signal =
                 data.signal ??
                 data.senal ??
                 "ESPERAR";
 
 
-            /*
-             * EMA
-             */
-
-            const ema =
-                data.ema9 ??
-                data.ema ??
-                0;
-
-
-            /*
-             * RSI
-             */
-
-            const rsi =
-                data.rsi ??
-                0;
-
-
-            /*
-             * Banda inferior
-             */
-
-            const lower =
-                data.lower_band ??
-                data.banda_inferior ??
-                0;
-
-
-            /*
-             * Banda superior
-             */
-
-            const upper =
-                data.upper_band ??
-                data.banda_superior ??
-                0;
-
-
-            /*
-             * Símbolo
-             */
-
             const symbol =
                 data.symbol ??
                 "XAU/USD";
 
-
-            /*
-             * Timeframe
-             */
 
             const timeframe =
                 data.timeframe ??
@@ -1100,27 +1787,119 @@
 
 
             /* =========================================
+               INDICADORES
+            ========================================= */
+
+            const ema9 =
+                data.ema9 ??
+                data.ema ??
+                0;
+
+
+            const ema21 =
+                data.ema21 ??
+                0;
+
+
+            const rsi =
+                data.rsi ??
+                0;
+
+
+            const atr =
+                data.atr ??
+                0;
+
+
+            const lower =
+                data.lower_band ??
+                data.banda_inferior ??
+                0;
+
+
+            const middle =
+                data.middle_band ??
+                data.banda_media ??
+                0;
+
+
+            const upper =
+                data.upper_band ??
+                data.banda_superior ??
+                0;
+
+
+            /* =========================================
+               NIVELES
+            ========================================= */
+
+            const entry =
+                data.entry_price ??
+                data.entry ??
+                price;
+
+
+            const stopLoss =
+                data.stop_loss ??
+                data.sl ??
+                null;
+
+
+            const takeProfit1 =
+                data.take_profit_1 ??
+                data.tp1 ??
+                null;
+
+
+            const takeProfit2 =
+                data.take_profit_2 ??
+                data.tp2 ??
+                null;
+
+
+            /* =========================================
+               CONFIANZA / TENDENCIA
+            ========================================= */
+
+            const confidence =
+                data.confidence ??
+                0;
+
+
+            const trend =
+                data.trend ??
+                "NEUTRAL 🟡";
+
+
+            /* =========================================
+               PUNTOS
+            ========================================= */
+
+            const buyPoints =
+                data.buy_points ??
+                0;
+
+
+            const sellPoints =
+                data.sell_points ??
+                0;
+
+
+            const difference =
+                data.difference ??
+                (
+                    buyPoints -
+                    sellPoints
+                );
+
+
+            /* =========================================
                ACTUALIZAR PANTALLA
             ========================================= */
 
             priceElem.innerText =
-                "$" + numero(price);
-
-
-            emaElem.innerText =
-                numero(ema);
-
-
-            rsiElem.innerText =
-                numero(rsi);
-
-
-            lowerElem.innerText =
-                numero(lower);
-
-
-            upperElem.innerText =
-                numero(upper);
+                "$" +
+                numero(price);
 
 
             symbolElem.innerText =
@@ -1133,7 +1912,132 @@
                 timeframe;
 
 
-            mostrarSenal(signal);
+            entryElem.innerText =
+                numero(entry);
+
+
+            /*
+             * SL
+             */
+
+            slElem.innerText =
+                stopLoss === null
+                    ? "--"
+                    : numero(stopLoss);
+
+
+            /*
+             * TP1
+             */
+
+            tp1Elem.innerText =
+                takeProfit1 === null
+                    ? "--"
+                    : numero(takeProfit1);
+
+
+            /*
+             * TP2
+             */
+
+            tp2Elem.innerText =
+                takeProfit2 === null
+                    ? "--"
+                    : numero(takeProfit2);
+
+
+            /*
+             * Confianza
+             */
+
+            confidenceElem.innerText =
+                porcentaje(confidence);
+
+
+            /*
+             * Tendencia
+             */
+
+            trendElem.innerText =
+                trend;
+
+
+            /*
+             * Indicadores
+             */
+
+            emaElem.innerText =
+                numero(ema9);
+
+
+            ema21Elem.innerText =
+                numero(ema21);
+
+
+            rsiElem.innerText =
+                numero(rsi);
+
+
+            atrElem.innerText =
+                numero(atr);
+
+
+            lowerElem.innerText =
+                numero(lower);
+
+
+            middleElem.innerText =
+                numero(middle);
+
+
+            upperElem.innerText =
+                numero(upper);
+
+
+            /*
+             * Puntos
+             */
+
+            buyPointsElem.innerText =
+                buyPoints;
+
+
+            sellPointsElem.innerText =
+                sellPoints;
+
+
+            differenceElem.innerText =
+                difference > 0
+                    ? "+" + difference
+                    : difference;
+
+
+            /*
+             * Plataforma
+             */
+
+            platformElem.innerText =
+                data.platform ??
+                "MetaTrader 5";
+
+
+            /*
+             * Señal
+             */
+
+            mostrarSenal(
+                signal
+            );
+
+
+            /*
+             * Motivos
+             */
+
+            mostrarMotivos(
+                data.reasons_buy,
+                data.reasons_sell
+            );
 
 
             /* =========================================
@@ -1163,9 +2067,9 @@
             apiConectada();
 
 
-            /*
-             * Reiniciar cuenta regresiva
-             */
+            /* =========================================
+               REINICIAR CUENTA
+            ========================================= */
 
             iniciarCuentaRegresiva();
 
@@ -1179,7 +2083,7 @@
 
 
             /*
-             * Mostrar error
+             * Señal de error
              */
 
             badge.className =
@@ -1193,6 +2097,26 @@
                 "N/A";
 
 
+            entryElem.innerText =
+                "--";
+
+
+            slElem.innerText =
+                "--";
+
+
+            tp1Elem.innerText =
+                "--";
+
+
+            tp2Elem.innerText =
+                "--";
+
+
+            confidenceElem.innerText =
+                "--%";
+
+
             apiDesconectada();
 
 
@@ -1202,14 +2126,18 @@
 
             errorMessage.innerText =
                 "No se pudo conectar con la API. " +
-                "Verifica que el servicio de Render esté activo y permita solicitudes CORS.";
+                "Verifica que el servicio de Render esté activo.";
 
 
         } finally {
 
-            isLoading = false;
+            isLoading =
+                false;
 
-            btn.disabled = false;
+
+            btn.disabled =
+                false;
+
 
             btn.innerText =
                 "BUSCAR SEÑAL";
@@ -1261,10 +2189,6 @@
                         );
 
 
-                        /*
-                         * Actualización automática
-                         */
-
                         await pedirSenal();
 
 
@@ -1283,7 +2207,7 @@
 
 
     /* =====================================================
-       TEXTO CUENTA REGRESIVA
+       TEXTO CUENTA
     ===================================================== */
 
     function actualizarTextoCuenta() {
@@ -1299,11 +2223,6 @@
     /* =====================================================
        PRIMERA CARGA
     ===================================================== */
-
-    /*
-     * Al abrir la aplicación
-     * hacemos una consulta automática.
-     */
 
     window.addEventListener(
         "load",
@@ -1323,7 +2242,7 @@
 
 
     /* =====================================================
-       EVITAR RECARGA AL VOLVER A TELEGRAM
+       AL VOLVER A TELEGRAM
     ===================================================== */
 
     document.addEventListener(
@@ -1336,11 +2255,16 @@
             ) {
 
                 /*
-                 * Si vuelve a abrirse la app,
-                 * actualizamos los datos.
+                 * Pequeña protección:
+                 * si ya está cargando,
+                 * no hacemos otra consulta.
                  */
 
-                pedirSenal();
+                if (!isLoading) {
+
+                    pedirSenal();
+
+                }
 
             }
 
