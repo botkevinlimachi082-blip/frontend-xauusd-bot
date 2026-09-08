@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XAUUSD Signal Bot</title>
+    <!-- 1. SDK Oficial de Telegram Web Apps -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Estilos visuales optimizados para móviles */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0b0e14;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 16px;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 20px;
+            color: #f0b90b; /* Color estilo Oro */
+            margin-bottom: 5px;
+        }
+        .header p {
+            font-size: 13px;
+            color: #848e9c;
+        }
+        .btn-analizar {
+            background: linear-gradient(135deg, #f0b90b, #d49b00);
+            color: #000000;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(240, 185, 11, 0.3);
+            transition: transform 0.1s;
+        }
+        .btn-analizar:active {
+            transform: scale(0.98);
+        }
+        .card-result {
+            background: #1e2329;
+            border: 1px solid #2b313a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none; /* Oculto por defecto */
+        }
+        .signal-badge {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: inline-block;
+            width: 100%;
+        }
+        /* Colores dinámicos según el tipo de señal */
+        .compra { background-color: rgba(14, 203, 129, 0.15); color: #0ecb81; border: 1px solid #0ecb81; }
+        .venta { background-color: rgba(246, 70, 93, 0.15); color: #f6465d; border: 1px solid #f6465d; }
+        .espera { background-color: rgba(240, 185, 11, 0.15); color: #f0b90b; border: 1px solid #f0b90b; }
+        
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #2b313a;
+            font-size: 14px;
+        }
+        .data-row:last-child { border-bottom: none; }
+        .data-label { color: #848e9c; }
+        .data-value { font-weight: bold; color: #eaedeb; }
+        .footer-time {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #474d57;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>⚡ XAUUSD (Oro) MT5 Signals</h1>
+        <p>Análisis en tiempo real para MetaTrader 5</p>
+    </div>
+
+    <!-- Botón de consulta -->
+    <button class="btn-analizar" onclick="pedirSenal()">BUSCAR SEÑAL</button>
+
+    <!-- Caja de resultados -->
+    <div class="card-result" id="cardResult">
+        <div id="signalBadge" class="signal-badge espera">CONSULTANDO...</div>
+        
+        <div class="data-row">
+            <span class="data-label">Activo:</span>
+            <span class="data-value">XAUUSD (Oro)</span>
+        </div>
+        <div class="data-row">
+            <span class="data-label">Precio Actual:</span>
+            <span class="data-value" id="valPrice">0.00</span>
+        </div>
+        <div class="data-row">
+            <span class="data-label">Plataforma:</span>
+            <span class="data-value">MetaTrader 5</span>
+        </div>
+
+        <div class="footer-time" id="valTime">--:--:--</div>
+    </div>
+</div>
+
+<script>
+    // 2. Inicializar la integración con Telegram
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand(); // Ajusta la ventana al tamaño completo de Telegram
+
+    // Reemplaza esta URL con el enlace público que te generó Render.com en el paso anterior
+    const API_URL = "https://api-xauusd-bot.onrender.com/api/xauusd";
+
+    async function pedirSenal() {
+        const card = document.getElementById('cardResult');
+        const badge = document.getElementById('signalBadge');
+        const priceElem = document.getElementById('valPrice');
+        const timeElem = document.getElementById('valTime');
+
+        // Mostrar caja de carga
+        card.style.display = 'block';
+        badge.className = "signal-badge espera";
+        badge.innerText = "ANALIZANDO MERCADO...";
+
+        try {
+            // Petición HTTP a la API de Python
+            const response = await fetch(API_URL);
+            
+            if (!response.ok) throw new Error("Error en la respuesta de la API");
+            
+            const data = await response.json();
+
+            // Actualizar datos en pantalla
+            priceElem.innerText = "$" + parseFloat(data.price).toFixed(2);
+            badge.innerText = data.signal;
+
+            // Cambiar el color del recuadro según la respuesta
+            if (data.signal.includes("COMPRA")) {
+                badge.className = "signal-badge compra";
+                tg.HapticFeedback.notificationOccurred('success'); // Vibración en el teléfono
+            } else if (data.signal.includes("VENTA")) {
+                badge.className = "signal-badge venta";
+                tg.HapticFeedback.notificationOccurred('warning'); // Vibración en el teléfono
+            } else {
+                badge.className = "signal-badge espera";
+            }
+
+            timeElem.innerText = "Última consulta: " + new Date().toLocaleTimeString();
+
+        } catch (error) {
+            badge.className = "signal-badge venta";
+            badge.innerText = "ERROR DE CONEXIÓN";
+            priceElem.innerText = "N/A";
+            timeElem.innerText = "Asegúrate de que la API en Render esté activa.";
+        }
+    }
+</script>
+
+</body>
+</html>
