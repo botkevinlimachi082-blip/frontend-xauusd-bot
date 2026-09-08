@@ -2,10 +2,15 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
     <title>Oro Signals MT5</title>
 
-    <!-- Telegram Web Apps -->
+    <!-- Telegram Web App -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
@@ -15,21 +20,15 @@
             padding: 0;
         }
 
-        :root {
-            --bg: #0b0e14;
-            --card: #1e2329;
-            --border: #2b313a;
-            --gold: #f0b90b;
-            --gold-dark: #d49b00;
-            --text: #eaedeb;
-            --muted: #8b95a5;
-            --green: #0ecb81;
-            --red: #f6465d;
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
         }
 
         body {
-            background: var(--bg);
-            color: var(--text);
+            background: #0b0e14;
+            color: #ffffff;
             font-family:
                 -apple-system,
                 BlinkMacSystemFont,
@@ -38,14 +37,14 @@
                 Arial,
                 sans-serif;
 
-            min-height: 100vh;
-            padding: 30px 16px 40px;
+            padding: 24px 16px 40px;
             text-align: center;
+            overflow-x: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 630px;
+            max-width: 680px;
             margin: 0 auto;
         }
 
@@ -58,50 +57,53 @@
         }
 
         .header h1 {
-            font-size: clamp(25px, 6vw, 36px);
+            font-size: clamp(28px, 7vw, 42px);
+            line-height: 1.12;
             font-weight: 800;
-            color: var(--gold);
-            margin-bottom: 8px;
-            line-height: 1.2;
+            color: #f0b90b;
+            margin-bottom: 12px;
         }
 
         .header p {
-            font-size: clamp(15px, 4vw, 19px);
-            color: var(--muted);
+            font-size: clamp(16px, 4vw, 21px);
+            line-height: 1.4;
+            color: #8b93a3;
         }
 
         /* =========================
-           BUTTON
+           BOTÓN
         ========================= */
 
         .btn-analizar {
             width: 100%;
-            min-height: 82px;
+            min-height: 105px;
 
-            background: linear-gradient(
-                135deg,
-                #ffc400,
-                var(--gold),
-                var(--gold-dark)
-            );
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffc400 0%,
+                    #f0b90b 45%,
+                    #d69e00 100%
+                );
 
-            color: #000;
-
+            color: #050505;
             border: none;
-            border-radius: 18px;
+            border-radius: 24px;
 
-            font-size: clamp(21px, 5vw, 28px);
+            font-size: clamp(25px, 6vw, 36px);
             font-weight: 800;
 
             cursor: pointer;
 
             box-shadow:
-                0 6px 20px rgba(240, 185, 11, 0.30),
-                0 0 35px rgba(240, 185, 11, 0.08);
+                0 0 20px rgba(240, 185, 11, 0.25),
+                0 10px 35px rgba(240, 185, 11, 0.12);
 
             transition:
-                transform 0.12s ease,
-                opacity 0.2s ease;
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+
+            margin-bottom: 26px;
         }
 
         .btn-analizar:active {
@@ -109,219 +111,322 @@
         }
 
         .btn-analizar:disabled {
-            opacity: 0.65;
+            opacity: 0.7;
             cursor: wait;
         }
 
         /* =========================
-           RESULT CARD
+           TARJETA
         ========================= */
 
         .card-result {
-            background: var(--card);
+            width: 100%;
 
-            border: 1px solid var(--border);
-            border-radius: 22px;
+            background: #1e2329;
 
-            padding: 38px 40px 28px;
+            border: 1px solid #303641;
 
-            margin-top: 38px;
+            border-radius: 30px;
 
-            text-align: left;
+            padding: 34px 38px 30px;
 
             box-shadow:
-                0 12px 35px rgba(0, 0, 0, 0.25);
+                0 10px 35px rgba(0, 0, 0, 0.25);
+
+            text-align: left;
         }
 
         /* =========================
-           SIGNAL
+           SEÑAL
         ========================= */
 
         .signal-badge {
             width: 100%;
 
-            min-height: 116px;
+            min-height: 120px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            border-radius: 17px;
+            border-radius: 25px;
 
-            font-size: clamp(31px, 8vw, 43px);
+            font-size: clamp(34px, 8vw, 52px);
             font-weight: 800;
 
-            margin-bottom: 38px;
+            margin-bottom: 34px;
 
             text-align: center;
 
             transition:
-                background 0.25s ease,
-                color 0.25s ease,
-                border 0.25s ease;
-        }
-
-        .espera {
-            background: rgba(240, 185, 11, 0.15);
-            color: var(--gold);
-            border: 2px solid var(--gold);
+                background 0.3s ease,
+                border 0.3s ease,
+                color 0.3s ease;
         }
 
         .compra {
             background: rgba(14, 203, 129, 0.15);
-            color: var(--green);
-            border: 2px solid var(--green);
+            color: #0ecb81;
+            border: 2px solid #0ecb81;
+
+            box-shadow:
+                0 0 25px rgba(14, 203, 129, 0.08);
         }
 
         .venta {
             background: rgba(246, 70, 93, 0.15);
-            color: var(--red);
-            border: 2px solid var(--red);
+            color: #f6465d;
+            border: 2px solid #f6465d;
+
+            box-shadow:
+                0 0 25px rgba(246, 70, 93, 0.08);
+        }
+
+        .espera {
+            background: rgba(240, 185, 11, 0.14);
+            color: #f0b90b;
+            border: 2px solid #f0b90b;
+
+            box-shadow:
+                0 0 25px rgba(240, 185, 11, 0.08);
+        }
+
+        .error {
+            background: rgba(246, 70, 93, 0.12);
+            color: #f6465d;
+            border: 2px solid #f6465d;
         }
 
         /* =========================
-           DATA ROWS
+           DATOS
         ========================= */
 
         .data-row {
             display: flex;
+
             align-items: center;
             justify-content: space-between;
 
             gap: 20px;
 
-            min-height: 76px;
+            min-height: 72px;
 
-            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+
+            border-bottom: 1px solid #303641;
+
+            font-size: clamp(17px, 4vw, 23px);
         }
 
         .data-label {
-            color: var(--muted);
-            font-size: clamp(16px, 4.5vw, 21px);
+            color: #929aaa;
+            font-weight: 400;
         }
 
         .data-value {
-            color: var(--text);
-            font-size: clamp(17px, 4.5vw, 22px);
-            font-weight: 750;
+            color: #eaedeb;
+            font-weight: 700;
             text-align: right;
         }
 
-        .price-value {
-            font-size: clamp(27px, 7vw, 35px);
-            font-weight: 850;
+        /* Precio más grande */
+
+        .price-row {
+            min-height: 95px;
+        }
+
+        .price-row .data-label {
+            font-size: clamp(19px, 4.5vw, 25px);
+        }
+
+        .price-row .data-value {
+            font-size: clamp(31px, 7vw, 46px);
+            font-weight: 800;
         }
 
         /* =========================
-           API STATUS
+           ESTADO API
         ========================= */
 
         .api-status {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 12px;
+
             margin-top: 32px;
 
-            color: var(--green);
+            color: #20c982;
 
-            font-size: clamp(17px, 4.5vw, 21px);
-            font-weight: 500;
+            font-size: clamp(19px, 4.5vw, 25px);
+            font-weight: 600;
         }
 
-        .api-dot {
-            display: inline-block;
-
-            width: 11px;
-            height: 11px;
-
-            background: var(--green);
+        .status-dot {
+            width: 17px;
+            height: 17px;
 
             border-radius: 50%;
 
-            margin-right: 7px;
+            background: #20c982;
 
-            box-shadow: 0 0 10px rgba(14, 203, 129, 0.7);
+            box-shadow:
+                0 0 10px rgba(32, 201, 130, 0.9),
+                0 0 22px rgba(32, 201, 130, 0.45);
+
+            animation: pulse 1.7s infinite;
         }
 
-        .api-error {
-            color: var(--red);
+        .status-dot.offline {
+            background: #f6465d;
+
+            box-shadow:
+                0 0 10px rgba(246, 70, 93, 0.8);
         }
 
-        .api-error .api-dot {
-            background: var(--red);
-            box-shadow: 0 0 10px rgba(246, 70, 93, 0.7);
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.18);
+                opacity: 0.65;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         /* =========================
-           COUNTDOWN
+           CUENTA REGRESIVA
         ========================= */
 
         .countdown {
             text-align: center;
 
-            color: var(--gold);
+            margin-top: 24px;
 
-            font-size: clamp(17px, 4.5vw, 21px);
+            color: #f0b90b;
 
-            margin-top: 20px;
+            font-size: clamp(18px, 4.5vw, 25px);
+            font-weight: 500;
         }
 
         /* =========================
-           FOOTER TIME
+           ÚLTIMA CONSULTA
         ========================= */
 
         .footer-time {
             text-align: center;
 
-            margin-top: 30px;
-
-            font-size: 13px;
+            margin-top: 28px;
 
             color: #535b68;
+
+            font-size: clamp(13px, 3.5vw, 17px);
         }
 
         /* =========================
-           LOADING
+           MENSAJE ERROR
         ========================= */
 
-        .loading {
-            animation: pulse 1.2s infinite ease-in-out;
-        }
+        .error-message {
+            display: none;
 
-        @keyframes pulse {
-            0% {
-                opacity: 1;
-            }
+            margin-top: 18px;
 
-            50% {
-                opacity: 0.45;
-            }
+            padding: 14px;
 
-            100% {
-                opacity: 1;
-            }
+            border-radius: 12px;
+
+            background: rgba(246, 70, 93, 0.08);
+
+            color: #f6465d;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            text-align: center;
         }
 
         /* =========================
-           MOBILE
+           RESPONSIVE
         ========================= */
 
         @media (max-width: 480px) {
 
             body {
-                padding: 25px 12px 35px;
+                padding: 18px 12px 35px;
+            }
+
+            .header {
+                margin-bottom: 24px;
+            }
+
+            .header h1 {
+                font-size: 31px;
+            }
+
+            .header p {
+                font-size: 17px;
+            }
+
+            .btn-analizar {
+                min-height: 92px;
+                border-radius: 22px;
+                font-size: 27px;
             }
 
             .card-result {
-                padding: 30px 24px 25px;
-                margin-top: 30px;
-            }
-
-            .data-row {
-                min-height: 70px;
+                padding: 26px 24px 28px;
+                border-radius: 25px;
             }
 
             .signal-badge {
-                min-height: 100px;
-                margin-bottom: 28px;
+                min-height: 120px;
+                border-radius: 23px;
+                margin-bottom: 25px;
+                font-size: 39px;
+            }
+
+            .data-row {
+                min-height: 72px;
+                padding: 14px 0;
+            }
+
+            .price-row {
+                min-height: 90px;
+            }
+
+            .price-row .data-value {
+                font-size: 34px;
+            }
+        }
+
+        @media (max-width: 360px) {
+
+            .card-result {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .data-row {
+                font-size: 15px;
+                gap: 10px;
+            }
+
+            .price-row .data-value {
+                font-size: 29px;
+            }
+
+            .signal-badge {
+                font-size: 33px;
             }
         }
     </style>
@@ -333,7 +438,7 @@
 
     <!-- =========================
          HEADER
-    ========================= -->
+    ========================== -->
 
     <div class="header">
 
@@ -349,8 +454,8 @@
 
 
     <!-- =========================
-         BUTTON
-    ========================= -->
+         BOTÓN
+    ========================== -->
 
     <button
         id="btnAnalizar"
@@ -363,7 +468,7 @@
 
     <!-- =========================
          RESULTADO
-    ========================= -->
+    ========================== -->
 
     <div
         id="cardResult"
@@ -400,7 +505,7 @@
 
         <!-- PRECIO -->
 
-        <div class="data-row">
+        <div class="data-row price-row">
 
             <span class="data-label">
                 Precio Actual:
@@ -408,7 +513,7 @@
 
             <span
                 id="valPrice"
-                class="data-value price-value"
+                class="data-value"
             >
                 $0.00
             </span>
@@ -521,18 +626,26 @@
         </div>
 
 
-        <!-- API STATUS -->
+        <!-- ESTADO API -->
 
         <div
             id="apiStatus"
             class="api-status"
         >
-            <span class="api-dot"></span>
-            API conectada
+
+            <span
+                id="statusDot"
+                class="status-dot"
+            ></span>
+
+            <span id="statusText">
+                API conectada
+            </span>
+
         </div>
 
 
-        <!-- COUNTDOWN -->
+        <!-- CUENTA REGRESIVA -->
 
         <div
             id="countdown"
@@ -542,13 +655,23 @@
         </div>
 
 
-        <!-- HORA -->
+        <!-- ÚLTIMA CONSULTA -->
 
         <div
             id="valTime"
             class="footer-time"
         >
             Última consulta: --
+        </div>
+
+
+        <!-- ERROR -->
+
+        <div
+            id="errorMessage"
+            class="error-message"
+        >
+            No se pudo conectar con la API.
         </div>
 
     </div>
@@ -562,28 +685,38 @@
        TELEGRAM WEB APP
     ===================================================== */
 
-    const tg = window.Telegram
-        ? window.Telegram.WebApp
-        : null;
+    const tg = window.Telegram.WebApp;
 
-    if (tg) {
-
-        tg.ready();
-        tg.expand();
-
-    }
+    tg.ready();
+    tg.expand();
 
 
     /* =====================================================
-       API DE RENDER
+       CONFIGURACIÓN
     ===================================================== */
 
     const API_URL =
         "https://api-xauusd-bot.onrender.com/";
 
 
+    /*
+     * Intervalo automático:
+     *
+     * 60 segundos = 60000 ms
+     */
+
+    const UPDATE_INTERVAL = 60;
+
+
+    let countdownSeconds = UPDATE_INTERVAL;
+
+    let countdownTimer = null;
+
+    let isLoading = false;
+
+
     /* =====================================================
-       ELEMENTOS
+       ELEMENTOS HTML
     ===================================================== */
 
     const card =
@@ -607,163 +740,193 @@
     const upperElem =
         document.getElementById("valUpper");
 
-    const symbolElem =
-        document.getElementById("valSymbol");
-
     const timeframeElem =
         document.getElementById("valTimeframe");
+
+    const symbolElem =
+        document.getElementById("valSymbol");
 
     const timeElem =
         document.getElementById("valTime");
 
-    const apiStatus =
-        document.getElementById("apiStatus");
-
     const countdownElem =
         document.getElementById("countdown");
 
-    const button =
+    const btn =
         document.getElementById("btnAnalizar");
 
+    const statusText =
+        document.getElementById("statusText");
 
-    /* =====================================================
-       VARIABLES
-    ===================================================== */
+    const statusDot =
+        document.getElementById("statusDot");
 
-    let segundosRestantes = 60;
-
-    let countdownInterval = null;
-
-    let actualizando = false;
+    const errorMessage =
+        document.getElementById("errorMessage");
 
 
     /* =====================================================
-       FORMATEAR NUMERO
+       MOSTRAR TARJETA
     ===================================================== */
 
-    function numero(valor, decimales = 2) {
+    function mostrarTarjeta() {
 
-        if (
-            valor === undefined ||
-            valor === null ||
-            valor === "" ||
-            isNaN(Number(valor))
-        ) {
-
-            return "--";
-
-        }
-
-        return Number(valor).toFixed(decimales);
+        card.style.display = "block";
 
     }
 
 
     /* =====================================================
-       HORA
+       ESTADO API
     ===================================================== */
 
-    function obtenerHora() {
+    function apiConectada() {
 
-        return new Date().toLocaleTimeString(
-            "es-ES",
-            {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-            }
+        statusText.innerText =
+            "API conectada";
+
+        statusText.style.color =
+            "#20c982";
+
+        statusDot.classList.remove(
+            "offline"
+        );
+
+        errorMessage.style.display =
+            "none";
+
+    }
+
+
+    function apiDesconectada() {
+
+        statusText.innerText =
+            "API desconectada";
+
+        statusText.style.color =
+            "#f6465d";
+
+        statusDot.classList.add(
+            "offline"
         );
 
     }
 
 
     /* =====================================================
-       VIBRACIÓN TELEGRAM
+       FORMATEAR NÚMEROS
     ===================================================== */
 
-    function vibrar(tipo) {
+    function numero(valor) {
 
-        try {
+        const n =
+            parseFloat(valor);
 
-            if (
-                tg &&
-                tg.HapticFeedback
-            ) {
+        if (isNaN(n)) {
 
-                tg.HapticFeedback
-                    .notificationOccurred(tipo);
-
-            }
-
-        } catch (e) {
-
-            console.log(
-                "Haptic no disponible"
-            );
+            return "--";
 
         }
+
+        return n.toFixed(2);
 
     }
 
 
     /* =====================================================
-       ACTUALIZAR SEÑAL
+       MOSTRAR SEÑAL
     ===================================================== */
 
-    function actualizarBadge(signal) {
+    function mostrarSenal(signal) {
 
         const texto =
-            String(signal || "ESPERAR ⏳");
-
-        const mayusculas =
-            texto.toUpperCase();
-
-
-        badge.className =
-            "signal-badge";
+            String(signal || "")
+            .trim()
+            .toUpperCase();
 
 
-        /* COMPRA */
+        /*
+         * COMPRA
+         */
 
         if (
-            mayusculas.includes("COMPRA") ||
-            mayusculas.includes("BUY")
+            texto.includes("COMPRA") ||
+            texto.includes("BUY")
         ) {
 
-            badge.classList.add("compra");
+            badge.className =
+                "signal-badge compra";
 
             badge.innerText =
                 "COMPRA 🟢";
 
-            vibrar("success");
+
+            /*
+             * Vibración Telegram
+             */
+
+            try {
+
+                if (
+                    tg.HapticFeedback
+                ) {
+
+                    tg.HapticFeedback
+                        .notificationOccurred(
+                            "success"
+                        );
+
+                }
+
+            } catch (e) {}
 
             return;
 
         }
 
 
-        /* VENTA */
+        /*
+         * VENTA
+         */
 
         if (
-            mayusculas.includes("VENTA") ||
-            mayusculas.includes("SELL")
+            texto.includes("VENTA") ||
+            texto.includes("SELL")
         ) {
 
-            badge.classList.add("venta");
+            badge.className =
+                "signal-badge venta";
 
             badge.innerText =
                 "VENTA 🔴";
 
-            vibrar("warning");
+
+            try {
+
+                if (
+                    tg.HapticFeedback
+                ) {
+
+                    tg.HapticFeedback
+                        .notificationOccurred(
+                            "warning"
+                        );
+
+                }
+
+            } catch (e) {}
 
             return;
 
         }
 
 
-        /* ESPERAR */
+        /*
+         * ESPERAR
+         */
 
-        badge.classList.add("espera");
+        badge.className =
+            "signal-badge espera";
 
         badge.innerText =
             "ESPERAR ⏳";
@@ -772,93 +935,64 @@
 
 
     /* =====================================================
-       MOSTRAR ERROR
-    ===================================================== */
-
-    function mostrarError(error) {
-
-        console.error(
-            "Error API:",
-            error
-        );
-
-
-        badge.className =
-            "signal-badge venta";
-
-        badge.innerText =
-            "ERROR DE CONEXIÓN ❌";
-
-
-        priceElem.innerText =
-            "N/A";
-
-
-        apiStatus.className =
-            "api-status api-error";
-
-
-        apiStatus.innerHTML =
-            '<span class="api-dot"></span> API desconectada';
-
-
-        timeElem.innerText =
-            "No se pudo consultar la API";
-
-
-        countdownElem.innerText =
-            "Reintentando en 60s";
-
-    }
-
-
-    /* =====================================================
-       PEDIR SEÑAL
+       BUSCAR SEÑAL
     ===================================================== */
 
     async function pedirSenal() {
 
-        if (actualizando) {
+        if (isLoading) {
 
             return;
 
         }
 
 
-        actualizando = true;
+        isLoading = true;
 
-        button.disabled = true;
-
-
-        /* MOSTRAR TARJETA */
-
-        card.style.display =
-            "block";
+        mostrarTarjeta();
 
 
-        /* ESTADO CARGANDO */
+        /*
+         * Estado mientras consulta
+         */
 
         badge.className =
-            "signal-badge espera loading";
+            "signal-badge espera";
 
         badge.innerText =
-            "ANALIZANDO MERCADO...";
+            "ANALIZANDO... ⏳";
+
+
+        btn.disabled = true;
+
+        btn.innerText =
+            "ANALIZANDO...";
 
 
         try {
 
+            /*
+             * Evitamos caché del navegador
+             */
+
+            const url =
+                API_URL +
+                "?t=" +
+                Date.now();
+
+
             const response =
                 await fetch(
-                    API_URL,
+                    url,
                     {
                         method: "GET",
+
+                        cache: "no-store",
 
                         headers: {
                             "Accept":
                                 "application/json"
-                        },
-
-                        cache: "no-store"
+                        }
                     }
                 );
 
@@ -878,14 +1012,19 @@
 
 
             console.log(
-                "Datos recibidos:",
+                "Respuesta API:",
                 data
             );
 
 
-            /* =================================================
-               SOPORTAR LOS NOMBRES DE TU API
-            ================================================= */
+            /* =========================================
+               LEER DATOS
+            ========================================= */
+
+
+            /*
+             * Precio
+             */
 
             const price =
                 data.price ??
@@ -893,76 +1032,95 @@
                 0;
 
 
+            /*
+             * Señal
+             */
+
             const signal =
                 data.signal ??
                 data.senal ??
-                data.señal ??
                 "ESPERAR";
 
 
+            /*
+             * EMA
+             */
+
             const ema =
                 data.ema9 ??
-                data.ema_9 ??
                 data.ema ??
-                null;
+                0;
 
+
+            /*
+             * RSI
+             */
 
             const rsi =
                 data.rsi ??
-                null;
+                0;
 
+
+            /*
+             * Banda inferior
+             */
 
             const lower =
                 data.lower_band ??
-                data.lowerBand ??
                 data.banda_inferior ??
-                data.bandaInferior ??
-                null;
+                0;
 
+
+            /*
+             * Banda superior
+             */
 
             const upper =
                 data.upper_band ??
-                data.upperBand ??
                 data.banda_superior ??
-                data.bandaSuperior ??
-                null;
+                0;
 
+
+            /*
+             * Símbolo
+             */
 
             const symbol =
                 data.symbol ??
-                data.simbolo ??
                 "XAU/USD";
 
 
+            /*
+             * Timeframe
+             */
+
             const timeframe =
                 data.timeframe ??
-                data.time_frame ??
                 "1min";
 
 
-            /* =================================================
-               MOSTRAR DATOS
-            ================================================= */
+            /* =========================================
+               ACTUALIZAR PANTALLA
+            ========================================= */
 
             priceElem.innerText =
-                "$" +
-                numero(price, 2);
+                "$" + numero(price);
 
 
             emaElem.innerText =
-                numero(ema, 2);
+                numero(ema);
 
 
             rsiElem.innerText =
-                numero(rsi, 2);
+                numero(rsi);
 
 
             lowerElem.innerText =
-                numero(lower, 2);
+                numero(lower);
 
 
             upperElem.innerText =
-                numero(upper, 2);
+                numero(upper);
 
 
             symbolElem.innerText =
@@ -975,51 +1133,86 @@
                 timeframe;
 
 
-            /* =================================================
-               SEÑAL
-            ================================================= */
-
-            actualizarBadge(
-                signal
-            );
+            mostrarSenal(signal);
 
 
-            /* =================================================
-               API CONECTADA
-            ================================================= */
-
-            apiStatus.className =
-                "api-status";
-
-            apiStatus.innerHTML =
-                '<span class="api-dot"></span> API conectada';
-
-
-            /* =================================================
+            /* =========================================
                HORA
-            ================================================= */
+            ========================================= */
+
+            const ahora =
+                new Date();
+
 
             timeElem.innerText =
                 "Última consulta: " +
-                obtenerHora();
+                ahora.toLocaleTimeString(
+                    "es-ES",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    }
+                );
 
 
-            /* =================================================
-               REINICIAR CONTADOR
-            ================================================= */
+            /* =========================================
+               API OK
+            ========================================= */
 
-            iniciarContador();
+            apiConectada();
+
+
+            /*
+             * Reiniciar cuenta regresiva
+             */
+
+            iniciarCuentaRegresiva();
 
 
         } catch (error) {
 
-            mostrarError(error);
+            console.error(
+                "Error API:",
+                error
+            );
+
+
+            /*
+             * Mostrar error
+             */
+
+            badge.className =
+                "signal-badge error";
+
+            badge.innerText =
+                "ERROR DE CONEXIÓN";
+
+
+            priceElem.innerText =
+                "N/A";
+
+
+            apiDesconectada();
+
+
+            errorMessage.style.display =
+                "block";
+
+
+            errorMessage.innerText =
+                "No se pudo conectar con la API. " +
+                "Verifica que el servicio de Render esté activo y permita solicitudes CORS.";
+
 
         } finally {
 
-            actualizando = false;
+            isLoading = false;
 
-            button.disabled = false;
+            btn.disabled = false;
+
+            btn.innerText =
+                "BUSCAR SEÑAL";
 
         }
 
@@ -1027,50 +1220,60 @@
 
 
     /* =====================================================
-       CONTADOR DE 60 SEGUNDOS
+       CUENTA REGRESIVA
     ===================================================== */
 
-    function iniciarContador() {
+    function iniciarCuentaRegresiva() {
 
-        segundosRestantes = 60;
+        /*
+         * Cancelar contador anterior
+         */
 
-
-        actualizarTextoContador();
-
-
-        if (countdownInterval) {
+        if (countdownTimer) {
 
             clearInterval(
-                countdownInterval
+                countdownTimer
             );
 
         }
 
 
-        countdownInterval =
+        countdownSeconds =
+            UPDATE_INTERVAL;
+
+
+        actualizarTextoCuenta();
+
+
+        countdownTimer =
             setInterval(
-                function () {
+                async function () {
 
-                    segundosRestantes--;
-
-
-                    actualizarTextoContador();
+                    countdownSeconds--;
 
 
                     if (
-                        segundosRestantes <= 0
+                        countdownSeconds <= 0
                     ) {
 
                         clearInterval(
-                            countdownInterval
+                            countdownTimer
                         );
 
 
-                        /* ACTUALIZAR AUTOMÁTICAMENTE */
+                        /*
+                         * Actualización automática
+                         */
 
-                        pedirSenal();
+                        await pedirSenal();
+
+
+                        return;
 
                     }
+
+
+                    actualizarTextoCuenta();
 
                 },
                 1000
@@ -1080,33 +1283,66 @@
 
 
     /* =====================================================
-       TEXTO DEL CONTADOR
+       TEXTO CUENTA REGRESIVA
     ===================================================== */
 
-    function actualizarTextoContador() {
+    function actualizarTextoCuenta() {
 
         countdownElem.innerText =
             "Próxima actualización en " +
-            segundosRestantes +
+            countdownSeconds +
             "s";
 
     }
 
 
     /* =====================================================
-       INICIAR
+       PRIMERA CARGA
     ===================================================== */
+
+    /*
+     * Al abrir la aplicación
+     * hacemos una consulta automática.
+     */
 
     window.addEventListener(
         "load",
         function () {
 
-            /*
-             * Consulta automáticamente al abrir
-             * la aplicación.
-             */
+            setTimeout(
+                function () {
 
-            pedirSenal();
+                    pedirSenal();
+
+                },
+                500
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       EVITAR RECARGA AL VOLVER A TELEGRAM
+    ===================================================== */
+
+    document.addEventListener(
+        "visibilitychange",
+        function () {
+
+            if (
+                document.visibilityState ===
+                "visible"
+            ) {
+
+                /*
+                 * Si vuelve a abrirse la app,
+                 * actualizamos los datos.
+                 */
+
+                pedirSenal();
+
+            }
 
         }
     );
