@@ -3,171 +3,951 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XAUUSD Signal Bot</title>
-    <!-- SDK Oficial de Telegram Web Apps -->
+
+    <title>Oro Signals MT5</title>
+
+    <!-- Telegram Web App -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #0b0e14;
+            background: #0b0e14;
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", Roboto, Arial, sans-serif;
             padding: 16px;
             text-align: center;
+            min-height: 100vh;
         }
+
         .container {
-            max-width: 400px;
+            width: 100%;
+            max-width: 430px;
             margin: 0 auto;
         }
+
+        /* HEADER */
         .header {
+            margin-top: 12px;
             margin-bottom: 20px;
         }
+
         .header h1 {
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: 800;
             color: #f0b90b;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
+
         .header p {
             font-size: 13px;
             color: #848e9c;
         }
+
+        /* BOTÓN */
         .btn-analizar {
-            background: linear-gradient(135deg, #f0b90b, #d49b00);
+            background: linear-gradient(
+                135deg,
+                #f0b90b,
+                #d49b00
+            );
+
             color: #000000;
             border: none;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 10px;
+
+            padding: 17px 15px;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            border-radius: 12px;
+
             width: 100%;
+
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(240, 185, 11, 0.3);
-            transition: transform 0.1s;
+
+            box-shadow:
+                0 5px 18px rgba(240, 185, 11, 0.28);
+
+            transition: all 0.15s ease;
         }
+
         .btn-analizar:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
+
+        .btn-analizar:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        /* CARD */
         .card-result {
             background: #1e2329;
             border: 1px solid #2b313a;
-            border-radius: 12px;
+            border-radius: 14px;
+
             padding: 20px;
+
             margin-top: 20px;
+
             display: none;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.25);
         }
+
+        /* SEÑAL */
         .signal-badge {
-            font-size: 24px;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: inline-block;
+            font-size: 27px;
+            font-weight: 900;
+
+            padding: 16px 10px;
+
+            border-radius: 10px;
+
+            margin-bottom: 18px;
+
+            display: block;
             width: 100%;
         }
-        .compra { background-color: rgba(14, 203, 129, 0.15); color: #0ecb81; border: 1px solid #0ecb81; }
-        .venta { background-color: rgba(246, 70, 93, 0.15); color: #f6465d; border: 1px solid #f6465d; }
-        .espera { background-color: rgba(240, 185, 11, 0.15); color: #f0b90b; border: 1px solid #f0b90b; }
-        
+
+        .compra {
+            background: rgba(14, 203, 129, 0.14);
+            color: #0ecb81;
+            border: 1px solid #0ecb81;
+        }
+
+        .venta {
+            background: rgba(246, 70, 93, 0.14);
+            color: #f6465d;
+            border: 1px solid #f6465d;
+        }
+
+        .espera {
+            background: rgba(240, 185, 11, 0.14);
+            color: #f0b90b;
+            border: 1px solid #f0b90b;
+        }
+
+        /* FILAS */
         .data-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            align-items: center;
+
+            padding: 11px 0;
+
             border-bottom: 1px solid #2b313a;
+
             font-size: 14px;
+
+            gap: 10px;
         }
-        .data-row:last-child { border-bottom: none; }
-        .data-label { color: #848e9c; }
-        .data-value { font-weight: bold; color: #eaedeb; }
+
+        .data-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .data-label {
+            color: #848e9c;
+            text-align: left;
+        }
+
+        .data-value {
+            font-weight: 700;
+            color: #eaedeb;
+            text-align: right;
+        }
+
+        /* PRECIO */
+        .price-row {
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .price-value {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        /* ESTADO */
+        .status {
+            margin-top: 16px;
+            font-size: 12px;
+            color: #848e9c;
+        }
+
+        .status-online {
+            color: #0ecb81;
+        }
+
+        .status-error {
+            color: #f6465d;
+        }
+
+        /* CUENTA REGRESIVA */
+        .countdown {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #f0b90b;
+        }
+
+        /* FOOTER */
         .footer-time {
             margin-top: 15px;
             font-size: 11px;
             color: #474d57;
         }
+
+        /* LOADING */
+        .loading {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.45;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 360px) {
+
+            .header h1 {
+                font-size: 19px;
+            }
+
+            .signal-badge {
+                font-size: 23px;
+            }
+
+            .data-row {
+                font-size: 13px;
+            }
+
+            .price-value {
+                font-size: 20px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
 <div class="container">
+
+    <!-- HEADER -->
     <div class="header">
+
         <h1>⚡ XAUUSD (Oro) MT5 Signals</h1>
-        <p>Análisis en tiempo real para MetaTrader 5</p>
+
+        <p>
+            Análisis en tiempo real para MetaTrader 5
+        </p>
+
     </div>
 
-    <!-- Botón de consulta -->
-    <button class="btn-analizar" onclick="pedirSenal()">BUSCAR SEÑAL</button>
 
-    <!-- Caja de resultados -->
-    <div class="card-result" id="cardResult">
-        <div id="signalBadge" class="signal-badge espera">CONSULTANDO...</div>
-        
-        <div class="data-row">
-            <span class="data-label">Activo:</span>
-            <span class="data-value">XAUUSD (Oro)</span>
-        </div>
-        <div class="data-row">
-            <span class="data-label">Precio Actual:</span>
-            <span class="data-value" id="valPrice">0.00</span>
-        </div>
-        <div class="data-row">
-            <span class="data-label">Plataforma:</span>
-            <span class="data-value">MetaTrader 5</span>
+    <!-- BOTÓN -->
+    <button
+        id="btnAnalizar"
+        class="btn-analizar"
+        onclick="pedirSenal()"
+    >
+        BUSCAR SEÑAL
+    </button>
+
+
+    <!-- RESULTADOS -->
+    <div
+        class="card-result"
+        id="cardResult"
+    >
+
+        <!-- SEÑAL -->
+        <div
+            id="signalBadge"
+            class="signal-badge espera"
+        >
+            CONSULTANDO...
         </div>
 
-        <div class="footer-time" id="valTime">--:--:--</div>
+
+        <!-- ACTIVO -->
+        <div class="data-row">
+
+            <span class="data-label">
+                Activo:
+            </span>
+
+            <span
+                class="data-value"
+                id="valSymbol"
+            >
+                XAUUSD (Oro)
+            </span>
+
+        </div>
+
+
+        <!-- PRECIO -->
+        <div class="data-row price-row">
+
+            <span class="data-label">
+                Precio Actual:
+            </span>
+
+            <span
+                class="data-value price-value"
+                id="valPrice"
+            >
+                $0.00
+            </span>
+
+        </div>
+
+
+        <!-- EMA -->
+        <div class="data-row">
+
+            <span class="data-label">
+                EMA 9:
+            </span>
+
+            <span
+                class="data-value"
+                id="valEma9"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <!-- RSI -->
+        <div class="data-row">
+
+            <span class="data-label">
+                RSI:
+            </span>
+
+            <span
+                class="data-value"
+                id="valRsi"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <!-- BANDA INFERIOR -->
+        <div class="data-row">
+
+            <span class="data-label">
+                Banda inferior:
+            </span>
+
+            <span
+                class="data-value"
+                id="valLower"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <!-- BANDA SUPERIOR -->
+        <div class="data-row">
+
+            <span class="data-label">
+                Banda superior:
+            </span>
+
+            <span
+                class="data-value"
+                id="valUpper"
+            >
+                --
+            </span>
+
+        </div>
+
+
+        <!-- TIMEFRAME -->
+        <div class="data-row">
+
+            <span class="data-label">
+                Timeframe:
+            </span>
+
+            <span
+                class="data-value"
+                id="valTimeframe"
+            >
+                1min
+            </span>
+
+        </div>
+
+
+        <!-- PLATAFORMA -->
+        <div class="data-row">
+
+            <span class="data-label">
+                Plataforma:
+            </span>
+
+            <span class="data-value">
+                MetaTrader 5
+            </span>
+
+        </div>
+
+
+        <!-- ESTADO -->
+        <div
+            id="status"
+            class="status status-online"
+        >
+            ● API conectada
+        </div>
+
+
+        <!-- CUENTA REGRESIVA -->
+        <div
+            id="countdown"
+            class="countdown"
+        >
+            Próxima actualización en 60s
+        </div>
+
+
+        <!-- HORA -->
+        <div
+            id="valTime"
+            class="footer-time"
+        >
+            Última consulta: --
+        </div>
+
     </div>
+
 </div>
 
+
 <script>
+
+    /* =====================================================
+       TELEGRAM
+    ===================================================== */
+
     const tg = window.Telegram.WebApp;
+
     tg.ready();
     tg.expand();
 
-    // URL de tu API en Render (apuntando a la raíz)
-    const API_URL = "https://api-xauusd-bot.onrender.com/";
+
+    /* =====================================================
+       URL DE TU API EN RENDER
+       ===================================================== */
+
+    const API_URL =
+        "https://api-xauusd-bot.onrender.com/";
+
+
+    /* =====================================================
+       VARIABLES
+       ===================================================== */
+
+    let intervaloActualizacion = null;
+
+    let segundosRestantes = 60;
+
+    let primeraConsulta = true;
+
+
+    /* =====================================================
+       ELEMENTOS HTML
+       ===================================================== */
+
+    const card =
+        document.getElementById("cardResult");
+
+    const badge =
+        document.getElementById("signalBadge");
+
+    const priceElem =
+        document.getElementById("valPrice");
+
+    const symbolElem =
+        document.getElementById("valSymbol");
+
+    const ema9Elem =
+        document.getElementById("valEma9");
+
+    const rsiElem =
+        document.getElementById("valRsi");
+
+    const lowerElem =
+        document.getElementById("valLower");
+
+    const upperElem =
+        document.getElementById("valUpper");
+
+    const timeframeElem =
+        document.getElementById("valTimeframe");
+
+    const timeElem =
+        document.getElementById("valTime");
+
+    const statusElem =
+        document.getElementById("status");
+
+    const countdownElem =
+        document.getElementById("countdown");
+
+    const button =
+        document.getElementById("btnAnalizar");
+
+
+    /* =====================================================
+       FUNCIÓN PRINCIPAL
+       ===================================================== */
 
     async function pedirSenal() {
-        const card = document.getElementById('cardResult');
-        const badge = document.getElementById('signalBadge');
-        const priceElem = document.getElementById('valPrice');
-        const timeElem = document.getElementById('valTime');
 
-        card.style.display = 'block';
-        badge.className = "signal-badge espera";
-        badge.innerText = "ANALIZANDO MERCADO...";
+        card.style.display = "block";
+
+        badge.className =
+            "signal-badge espera loading";
+
+        badge.innerText =
+            "ANALIZANDO MERCADO...";
+
+        button.disabled = true;
+
 
         try {
-            const response = await fetch(API_URL);
-            
-            if (!response.ok) throw new Error("Error en la respuesta de la API");
-            
-            const data = await response.json();
 
-            // Soportar respuestas tanto con 'price'/'signal' como con 'precio'/'senal'
-            const price = data.price || data.precio || 0;
-            const signal = data.signal || data.senal || "DESCONOCIDO";
+            const response =
+                await fetch(
+                    API_URL + "?t=" + Date.now(),
+                    {
+                        method: "GET",
+                        cache: "no-store"
+                    }
+                );
 
-            priceElem.innerText = "$" + parseFloat(price).toFixed(2);
-            badge.innerText = signal;
 
-            if (signal.toUpperCase().includes("COMPRA")) {
-                badge.className = "signal-badge compra";
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            } else if (signal.toUpperCase().includes("VENTA")) {
-                badge.className = "signal-badge venta";
-                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('warning');
-            } else {
-                badge.className = "signal-badge espera";
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP " + response.status
+                );
+
             }
 
-            timeElem.innerText = "Última consulta: " + new Date().toLocaleTimeString();
 
-        } catch (error) {
-            badge.className = "signal-badge venta";
-            badge.innerText = "ERROR DE CONEXIÓN";
-            priceElem.innerText = "N/A";
-            timeElem.innerText = "Asegúrate de que la API en Render esté activa y con CORS habilitado.";
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Datos recibidos:",
+                data
+            );
+
+
+            /* =============================================
+               DATOS
+               ============================================= */
+
+            const price =
+                data.price ??
+                data.precio ??
+                0;
+
+
+            const signal =
+                data.signal ??
+                data.senal ??
+                "ESPERAR ⏳";
+
+
+            const ema9 =
+                data.ema9 ??
+                "--";
+
+
+            const rsi =
+                data.rsi ??
+                "--";
+
+
+            const lowerBand =
+                data.lower_band ??
+                data.lowerBand ??
+                "--";
+
+
+            const upperBand =
+                data.upper_band ??
+                data.upperBand ??
+                "--";
+
+
+            const timeframe =
+                data.timeframe ??
+                "1min";
+
+
+            const symbol =
+                data.symbol ??
+                "XAUUSD";
+
+
+            /* =============================================
+               MOSTRAR DATOS
+               ============================================= */
+
+            if (
+                price !== null &&
+                price !== undefined &&
+                !isNaN(parseFloat(price))
+            ) {
+
+                priceElem.innerText =
+                    "$" +
+                    parseFloat(price).toFixed(2);
+
+            } else {
+
+                priceElem.innerText =
+                    "N/A";
+
+            }
+
+
+            if (
+                ema9 !== "--" &&
+                !isNaN(parseFloat(ema9))
+            ) {
+
+                ema9Elem.innerText =
+                    parseFloat(ema9).toFixed(2);
+
+            } else {
+
+                ema9Elem.innerText =
+                    "--";
+
+            }
+
+
+            if (
+                rsi !== "--" &&
+                !isNaN(parseFloat(rsi))
+            ) {
+
+                rsiElem.innerText =
+                    parseFloat(rsi).toFixed(2);
+
+            } else {
+
+                rsiElem.innerText =
+                    "--";
+
+            }
+
+
+            if (
+                lowerBand !== "--" &&
+                !isNaN(parseFloat(lowerBand))
+            ) {
+
+                lowerElem.innerText =
+                    parseFloat(lowerBand).toFixed(2);
+
+            } else {
+
+                lowerElem.innerText =
+                    "--";
+
+            }
+
+
+            if (
+                upperBand !== "--" &&
+                !isNaN(parseFloat(upperBand))
+            ) {
+
+                upperElem.innerText =
+                    parseFloat(upperBand).toFixed(2);
+
+            } else {
+
+                upperElem.innerText =
+                    "--";
+
+            }
+
+
+            symbolElem.innerText =
+                symbol === "XAUUSD"
+                    ? "XAUUSD (Oro)"
+                    : symbol;
+
+
+            timeframeElem.innerText =
+                timeframe;
+
+
+            /* =============================================
+               SEÑAL
+               ============================================= */
+
+            const signalText =
+                String(signal).toUpperCase();
+
+
+            badge.classList.remove(
+                "loading"
+            );
+
+
+            if (
+                signalText.includes("COMPRA") ||
+                signalText.includes("BUY")
+            ) {
+
+                badge.className =
+                    "signal-badge compra";
+
+                badge.innerText =
+                    "COMPRA 🟢";
+
+
+                if (
+                    tg.HapticFeedback
+                ) {
+
+                    tg.HapticFeedback
+                        .notificationOccurred(
+                            "success"
+                        );
+
+                }
+
+            }
+
+
+            else if (
+                signalText.includes("VENTA") ||
+                signalText.includes("SELL")
+            ) {
+
+                badge.className =
+                    "signal-badge venta";
+
+                badge.innerText =
+                    "VENTA 🔴";
+
+
+                if (
+                    tg.HapticFeedback
+                ) {
+
+                    tg.HapticFeedback
+                        .notificationOccurred(
+                            "warning"
+                        );
+
+                }
+
+            }
+
+
+            else {
+
+                badge.className =
+                    "signal-badge espera";
+
+                badge.innerText =
+                    "ESPERAR ⏳";
+
+            }
+
+
+            /* =============================================
+               ESTADO
+               ============================================= */
+
+            statusElem.className =
+                "status status-online";
+
+            statusElem.innerText =
+                "● API conectada";
+
+
+            /* =============================================
+               HORA
+               ============================================= */
+
+            timeElem.innerText =
+                "Última consulta: " +
+                new Date()
+                    .toLocaleTimeString(
+                        "es-ES"
+                    );
+
+
+            /* =============================================
+               REINICIAR CUENTA REGRESIVA
+               ============================================= */
+
+            segundosRestantes = 60;
+
+
+            /* =============================================
+               PRIMERA CONSULTA
+               ============================================= */
+
+            if (primeraConsulta) {
+
+                primeraConsulta = false;
+
+                iniciarActualizacionAutomatica();
+
+            }
+
         }
+
+
+        catch (error) {
+
+            console.error(
+                "Error API:",
+                error
+            );
+
+
+            badge.className =
+                "signal-badge venta";
+
+
+            badge.innerText =
+                "ERROR DE CONEXIÓN ❌";
+
+
+            priceElem.innerText =
+                "N/A";
+
+
+            statusElem.className =
+                "status status-error";
+
+
+            statusElem.innerText =
+                "● API desconectada";
+
+
+            timeElem.innerText =
+                "No se pudo consultar la API";
+
+
+            countdownElem.innerText =
+                "Reintentando automáticamente...";
+
+        }
+
+
+        finally {
+
+            button.disabled = false;
+
+        }
+
     }
+
+
+    /* =====================================================
+       ACTUALIZACIÓN AUTOMÁTICA
+       ===================================================== */
+
+    function iniciarActualizacionAutomatica() {
+
+        if (
+            intervaloActualizacion
+        ) {
+
+            clearInterval(
+                intervaloActualizacion
+            );
+
+        }
+
+
+        intervaloActualizacion =
+            setInterval(
+                function() {
+
+                    segundosRestantes--;
+
+
+                    if (
+                        segundosRestantes <= 0
+                    ) {
+
+                        segundosRestantes = 60;
+
+                        pedirSenal();
+
+                    }
+
+
+                    countdownElem.innerText =
+                        "Próxima actualización en " +
+                        segundosRestantes +
+                        "s";
+
+                },
+                1000
+            );
+
+    }
+
+
+    /* =====================================================
+       INICIAR AUTOMÁTICAMENTE
+       ===================================================== */
+
+    window.addEventListener(
+        "load",
+        function() {
+
+            pedirSenal();
+
+        }
+    );
+
 </script>
 
 </body>
