@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Oro Signals MT5</title>
 
-    <!-- Telegram Web App -->
+    <!-- Telegram Web Apps -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
@@ -16,200 +15,275 @@
             padding: 0;
         }
 
+        :root {
+            --bg: #0b0e14;
+            --card: #1e2329;
+            --border: #2b313a;
+            --gold: #f0b90b;
+            --gold-dark: #d49b00;
+            --text: #eaedeb;
+            --muted: #8b95a5;
+            --green: #0ecb81;
+            --red: #f6465d;
+        }
+
         body {
-            background: #0b0e14;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont,
-                         "Segoe UI", Roboto, Arial, sans-serif;
-            padding: 16px;
-            text-align: center;
+            background: var(--bg);
+            color: var(--text);
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
             min-height: 100vh;
+            padding: 30px 16px 40px;
+            text-align: center;
         }
 
         .container {
             width: 100%;
-            max-width: 430px;
+            max-width: 630px;
             margin: 0 auto;
         }
 
-        /* HEADER */
+        /* =========================
+           HEADER
+        ========================= */
+
         .header {
-            margin-top: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 28px;
         }
 
         .header h1 {
-            font-size: 22px;
+            font-size: clamp(25px, 6vw, 36px);
             font-weight: 800;
-            color: #f0b90b;
-            margin-bottom: 6px;
+            color: var(--gold);
+            margin-bottom: 8px;
+            line-height: 1.2;
         }
 
         .header p {
-            font-size: 13px;
-            color: #848e9c;
+            font-size: clamp(15px, 4vw, 19px);
+            color: var(--muted);
         }
 
-        /* BOTÓN */
+        /* =========================
+           BUTTON
+        ========================= */
+
         .btn-analizar {
+            width: 100%;
+            min-height: 82px;
+
             background: linear-gradient(
                 135deg,
-                #f0b90b,
-                #d49b00
+                #ffc400,
+                var(--gold),
+                var(--gold-dark)
             );
 
-            color: #000000;
+            color: #000;
+
             border: none;
+            border-radius: 18px;
 
-            padding: 17px 15px;
-
-            font-size: 17px;
+            font-size: clamp(21px, 5vw, 28px);
             font-weight: 800;
-
-            border-radius: 12px;
-
-            width: 100%;
 
             cursor: pointer;
 
             box-shadow:
-                0 5px 18px rgba(240, 185, 11, 0.28);
+                0 6px 20px rgba(240, 185, 11, 0.30),
+                0 0 35px rgba(240, 185, 11, 0.08);
 
-            transition: all 0.15s ease;
+            transition:
+                transform 0.12s ease,
+                opacity 0.2s ease;
         }
 
         .btn-analizar:active {
-            transform: scale(0.97);
+            transform: scale(0.98);
         }
 
         .btn-analizar:disabled {
             opacity: 0.65;
-            cursor: not-allowed;
+            cursor: wait;
         }
 
-        /* CARD */
+        /* =========================
+           RESULT CARD
+        ========================= */
+
         .card-result {
-            background: #1e2329;
-            border: 1px solid #2b313a;
-            border-radius: 14px;
+            background: var(--card);
 
-            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 22px;
 
-            margin-top: 20px;
+            padding: 38px 40px 28px;
 
-            display: none;
+            margin-top: 38px;
+
+            text-align: left;
 
             box-shadow:
-                0 8px 25px rgba(0, 0, 0, 0.25);
+                0 12px 35px rgba(0, 0, 0, 0.25);
         }
 
-        /* SEÑAL */
+        /* =========================
+           SIGNAL
+        ========================= */
+
         .signal-badge {
-            font-size: 27px;
-            font-weight: 900;
-
-            padding: 16px 10px;
-
-            border-radius: 10px;
-
-            margin-bottom: 18px;
-
-            display: block;
             width: 100%;
-        }
 
-        .compra {
-            background: rgba(14, 203, 129, 0.14);
-            color: #0ecb81;
-            border: 1px solid #0ecb81;
-        }
+            min-height: 116px;
 
-        .venta {
-            background: rgba(246, 70, 93, 0.14);
-            color: #f6465d;
-            border: 1px solid #f6465d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            font-size: clamp(31px, 8vw, 43px);
+            font-weight: 800;
+
+            margin-bottom: 38px;
+
+            text-align: center;
+
+            transition:
+                background 0.25s ease,
+                color 0.25s ease,
+                border 0.25s ease;
         }
 
         .espera {
-            background: rgba(240, 185, 11, 0.14);
-            color: #f0b90b;
-            border: 1px solid #f0b90b;
+            background: rgba(240, 185, 11, 0.15);
+            color: var(--gold);
+            border: 2px solid var(--gold);
         }
 
-        /* FILAS */
+        .compra {
+            background: rgba(14, 203, 129, 0.15);
+            color: var(--green);
+            border: 2px solid var(--green);
+        }
+
+        .venta {
+            background: rgba(246, 70, 93, 0.15);
+            color: var(--red);
+            border: 2px solid var(--red);
+        }
+
+        /* =========================
+           DATA ROWS
+        ========================= */
+
         .data-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
 
-            padding: 11px 0;
+            gap: 20px;
 
-            border-bottom: 1px solid #2b313a;
+            min-height: 76px;
 
-            font-size: 14px;
-
-            gap: 10px;
-        }
-
-        .data-row:last-of-type {
-            border-bottom: none;
+            border-bottom: 1px solid var(--border);
         }
 
         .data-label {
-            color: #848e9c;
-            text-align: left;
+            color: var(--muted);
+            font-size: clamp(16px, 4.5vw, 21px);
         }
 
         .data-value {
-            font-weight: 700;
-            color: #eaedeb;
+            color: var(--text);
+            font-size: clamp(17px, 4.5vw, 22px);
+            font-weight: 750;
             text-align: right;
         }
 
-        /* PRECIO */
-        .price-row {
-            padding-top: 15px;
-            padding-bottom: 15px;
-        }
-
         .price-value {
-            font-size: 22px;
-            font-weight: 900;
-            color: #ffffff;
+            font-size: clamp(27px, 7vw, 35px);
+            font-weight: 850;
         }
 
-        /* ESTADO */
-        .status {
-            margin-top: 16px;
-            font-size: 12px;
-            color: #848e9c;
+        /* =========================
+           API STATUS
+        ========================= */
+
+        .api-status {
+            text-align: center;
+            margin-top: 32px;
+
+            color: var(--green);
+
+            font-size: clamp(17px, 4.5vw, 21px);
+            font-weight: 500;
         }
 
-        .status-online {
-            color: #0ecb81;
+        .api-dot {
+            display: inline-block;
+
+            width: 11px;
+            height: 11px;
+
+            background: var(--green);
+
+            border-radius: 50%;
+
+            margin-right: 7px;
+
+            box-shadow: 0 0 10px rgba(14, 203, 129, 0.7);
         }
 
-        .status-error {
-            color: #f6465d;
+        .api-error {
+            color: var(--red);
         }
 
-        /* CUENTA REGRESIVA */
+        .api-error .api-dot {
+            background: var(--red);
+            box-shadow: 0 0 10px rgba(246, 70, 93, 0.7);
+        }
+
+        /* =========================
+           COUNTDOWN
+        ========================= */
+
         .countdown {
-            margin-top: 8px;
-            font-size: 12px;
-            color: #f0b90b;
+            text-align: center;
+
+            color: var(--gold);
+
+            font-size: clamp(17px, 4.5vw, 21px);
+
+            margin-top: 20px;
         }
 
-        /* FOOTER */
+        /* =========================
+           FOOTER TIME
+        ========================= */
+
         .footer-time {
-            margin-top: 15px;
-            font-size: 11px;
-            color: #474d57;
+            text-align: center;
+
+            margin-top: 30px;
+
+            font-size: 13px;
+
+            color: #535b68;
         }
 
-        /* LOADING */
+        /* =========================
+           LOADING
+        ========================= */
+
         .loading {
-            animation: pulse 1s infinite;
+            animation: pulse 1.2s infinite ease-in-out;
         }
 
         @keyframes pulse {
@@ -226,23 +300,28 @@
             }
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 360px) {
+        /* =========================
+           MOBILE
+        ========================= */
 
-            .header h1 {
-                font-size: 19px;
+        @media (max-width: 480px) {
+
+            body {
+                padding: 25px 12px 35px;
             }
 
-            .signal-badge {
-                font-size: 23px;
+            .card-result {
+                padding: 30px 24px 25px;
+                margin-top: 30px;
             }
 
             .data-row {
-                font-size: 13px;
+                min-height: 70px;
             }
 
-            .price-value {
-                font-size: 20px;
+            .signal-badge {
+                min-height: 100px;
+                margin-bottom: 28px;
             }
         }
     </style>
@@ -252,10 +331,15 @@
 
 <div class="container">
 
-    <!-- HEADER -->
+    <!-- =========================
+         HEADER
+    ========================= -->
+
     <div class="header">
 
-        <h1>⚡ XAUUSD (Oro) MT5 Signals</h1>
+        <h1>
+            ⚡ XAUUSD (Oro) MT5 Signals
+        </h1>
 
         <p>
             Análisis en tiempo real para MetaTrader 5
@@ -264,7 +348,10 @@
     </div>
 
 
-    <!-- BOTÓN -->
+    <!-- =========================
+         BUTTON
+    ========================= -->
+
     <button
         id="btnAnalizar"
         class="btn-analizar"
@@ -274,22 +361,27 @@
     </button>
 
 
-    <!-- RESULTADOS -->
+    <!-- =========================
+         RESULTADO
+    ========================= -->
+
     <div
-        class="card-result"
         id="cardResult"
+        class="card-result"
     >
 
         <!-- SEÑAL -->
+
         <div
             id="signalBadge"
             class="signal-badge espera"
         >
-            CONSULTANDO...
+            ESPERAR ⏳
         </div>
 
 
         <!-- ACTIVO -->
+
         <div class="data-row">
 
             <span class="data-label">
@@ -297,25 +389,26 @@
             </span>
 
             <span
-                class="data-value"
                 id="valSymbol"
+                class="data-value"
             >
-                XAUUSD (Oro)
+                XAU/USD
             </span>
 
         </div>
 
 
         <!-- PRECIO -->
-        <div class="data-row price-row">
+
+        <div class="data-row">
 
             <span class="data-label">
                 Precio Actual:
             </span>
 
             <span
-                class="data-value price-value"
                 id="valPrice"
+                class="data-value price-value"
             >
                 $0.00
             </span>
@@ -324,6 +417,7 @@
 
 
         <!-- EMA -->
+
         <div class="data-row">
 
             <span class="data-label">
@@ -331,8 +425,8 @@
             </span>
 
             <span
+                id="valEma"
                 class="data-value"
-                id="valEma9"
             >
                 --
             </span>
@@ -341,6 +435,7 @@
 
 
         <!-- RSI -->
+
         <div class="data-row">
 
             <span class="data-label">
@@ -348,8 +443,8 @@
             </span>
 
             <span
-                class="data-value"
                 id="valRsi"
+                class="data-value"
             >
                 --
             </span>
@@ -358,6 +453,7 @@
 
 
         <!-- BANDA INFERIOR -->
+
         <div class="data-row">
 
             <span class="data-label">
@@ -365,8 +461,8 @@
             </span>
 
             <span
-                class="data-value"
                 id="valLower"
+                class="data-value"
             >
                 --
             </span>
@@ -375,6 +471,7 @@
 
 
         <!-- BANDA SUPERIOR -->
+
         <div class="data-row">
 
             <span class="data-label">
@@ -382,8 +479,8 @@
             </span>
 
             <span
-                class="data-value"
                 id="valUpper"
+                class="data-value"
             >
                 --
             </span>
@@ -392,6 +489,7 @@
 
 
         <!-- TIMEFRAME -->
+
         <div class="data-row">
 
             <span class="data-label">
@@ -399,8 +497,8 @@
             </span>
 
             <span
-                class="data-value"
                 id="valTimeframe"
+                class="data-value"
             >
                 1min
             </span>
@@ -409,6 +507,7 @@
 
 
         <!-- PLATAFORMA -->
+
         <div class="data-row">
 
             <span class="data-label">
@@ -422,16 +521,19 @@
         </div>
 
 
-        <!-- ESTADO -->
+        <!-- API STATUS -->
+
         <div
-            id="status"
-            class="status status-online"
+            id="apiStatus"
+            class="api-status"
         >
-            ● API conectada
+            <span class="api-dot"></span>
+            API conectada
         </div>
 
 
-        <!-- CUENTA REGRESIVA -->
+        <!-- COUNTDOWN -->
+
         <div
             id="countdown"
             class="countdown"
@@ -441,6 +543,7 @@
 
 
         <!-- HORA -->
+
         <div
             id="valTime"
             class="footer-time"
@@ -456,37 +559,32 @@
 <script>
 
     /* =====================================================
-       TELEGRAM
+       TELEGRAM WEB APP
     ===================================================== */
 
-    const tg = window.Telegram.WebApp;
+    const tg = window.Telegram
+        ? window.Telegram.WebApp
+        : null;
 
-    tg.ready();
-    tg.expand();
+    if (tg) {
+
+        tg.ready();
+        tg.expand();
+
+    }
 
 
     /* =====================================================
-       URL DE TU API EN RENDER
-       ===================================================== */
+       API DE RENDER
+    ===================================================== */
 
     const API_URL =
         "https://api-xauusd-bot.onrender.com/";
 
 
     /* =====================================================
-       VARIABLES
-       ===================================================== */
-
-    let intervaloActualizacion = null;
-
-    let segundosRestantes = 60;
-
-    let primeraConsulta = true;
-
-
-    /* =====================================================
-       ELEMENTOS HTML
-       ===================================================== */
+       ELEMENTOS
+    ===================================================== */
 
     const card =
         document.getElementById("cardResult");
@@ -497,11 +595,8 @@
     const priceElem =
         document.getElementById("valPrice");
 
-    const symbolElem =
-        document.getElementById("valSymbol");
-
-    const ema9Elem =
-        document.getElementById("valEma9");
+    const emaElem =
+        document.getElementById("valEma");
 
     const rsiElem =
         document.getElementById("valRsi");
@@ -512,14 +607,17 @@
     const upperElem =
         document.getElementById("valUpper");
 
+    const symbolElem =
+        document.getElementById("valSymbol");
+
     const timeframeElem =
         document.getElementById("valTimeframe");
 
     const timeElem =
         document.getElementById("valTime");
 
-    const statusElem =
-        document.getElementById("status");
+    const apiStatus =
+        document.getElementById("apiStatus");
 
     const countdownElem =
         document.getElementById("countdown");
@@ -529,12 +627,216 @@
 
 
     /* =====================================================
-       FUNCIÓN PRINCIPAL
-       ===================================================== */
+       VARIABLES
+    ===================================================== */
+
+    let segundosRestantes = 60;
+
+    let countdownInterval = null;
+
+    let actualizando = false;
+
+
+    /* =====================================================
+       FORMATEAR NUMERO
+    ===================================================== */
+
+    function numero(valor, decimales = 2) {
+
+        if (
+            valor === undefined ||
+            valor === null ||
+            valor === "" ||
+            isNaN(Number(valor))
+        ) {
+
+            return "--";
+
+        }
+
+        return Number(valor).toFixed(decimales);
+
+    }
+
+
+    /* =====================================================
+       HORA
+    ===================================================== */
+
+    function obtenerHora() {
+
+        return new Date().toLocaleTimeString(
+            "es-ES",
+            {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       VIBRACIÓN TELEGRAM
+    ===================================================== */
+
+    function vibrar(tipo) {
+
+        try {
+
+            if (
+                tg &&
+                tg.HapticFeedback
+            ) {
+
+                tg.HapticFeedback
+                    .notificationOccurred(tipo);
+
+            }
+
+        } catch (e) {
+
+            console.log(
+                "Haptic no disponible"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ACTUALIZAR SEÑAL
+    ===================================================== */
+
+    function actualizarBadge(signal) {
+
+        const texto =
+            String(signal || "ESPERAR ⏳");
+
+        const mayusculas =
+            texto.toUpperCase();
+
+
+        badge.className =
+            "signal-badge";
+
+
+        /* COMPRA */
+
+        if (
+            mayusculas.includes("COMPRA") ||
+            mayusculas.includes("BUY")
+        ) {
+
+            badge.classList.add("compra");
+
+            badge.innerText =
+                "COMPRA 🟢";
+
+            vibrar("success");
+
+            return;
+
+        }
+
+
+        /* VENTA */
+
+        if (
+            mayusculas.includes("VENTA") ||
+            mayusculas.includes("SELL")
+        ) {
+
+            badge.classList.add("venta");
+
+            badge.innerText =
+                "VENTA 🔴";
+
+            vibrar("warning");
+
+            return;
+
+        }
+
+
+        /* ESPERAR */
+
+        badge.classList.add("espera");
+
+        badge.innerText =
+            "ESPERAR ⏳";
+
+    }
+
+
+    /* =====================================================
+       MOSTRAR ERROR
+    ===================================================== */
+
+    function mostrarError(error) {
+
+        console.error(
+            "Error API:",
+            error
+        );
+
+
+        badge.className =
+            "signal-badge venta";
+
+        badge.innerText =
+            "ERROR DE CONEXIÓN ❌";
+
+
+        priceElem.innerText =
+            "N/A";
+
+
+        apiStatus.className =
+            "api-status api-error";
+
+
+        apiStatus.innerHTML =
+            '<span class="api-dot"></span> API desconectada';
+
+
+        timeElem.innerText =
+            "No se pudo consultar la API";
+
+
+        countdownElem.innerText =
+            "Reintentando en 60s";
+
+    }
+
+
+    /* =====================================================
+       PEDIR SEÑAL
+    ===================================================== */
 
     async function pedirSenal() {
 
-        card.style.display = "block";
+        if (actualizando) {
+
+            return;
+
+        }
+
+
+        actualizando = true;
+
+        button.disabled = true;
+
+
+        /* MOSTRAR TARJETA */
+
+        card.style.display =
+            "block";
+
+
+        /* ESTADO CARGANDO */
 
         badge.className =
             "signal-badge espera loading";
@@ -542,16 +844,20 @@
         badge.innerText =
             "ANALIZANDO MERCADO...";
 
-        button.disabled = true;
-
 
         try {
 
             const response =
                 await fetch(
-                    API_URL + "?t=" + Date.now(),
+                    API_URL,
                     {
                         method: "GET",
+
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        },
+
                         cache: "no-store"
                     }
                 );
@@ -560,7 +866,8 @@
             if (!response.ok) {
 
                 throw new Error(
-                    "HTTP " + response.status
+                    "HTTP " +
+                    response.status
                 );
 
             }
@@ -576,9 +883,9 @@
             );
 
 
-            /* =============================================
-               DATOS
-               ============================================= */
+            /* =================================================
+               SOPORTAR LOS NOMBRES DE TU API
+            ================================================= */
 
             const price =
                 data.price ??
@@ -589,130 +896,78 @@
             const signal =
                 data.signal ??
                 data.senal ??
-                "ESPERAR ⏳";
+                data.señal ??
+                "ESPERAR";
 
 
-            const ema9 =
+            const ema =
                 data.ema9 ??
-                "--";
+                data.ema_9 ??
+                data.ema ??
+                null;
 
 
             const rsi =
                 data.rsi ??
-                "--";
+                null;
 
 
-            const lowerBand =
+            const lower =
                 data.lower_band ??
                 data.lowerBand ??
-                "--";
+                data.banda_inferior ??
+                data.bandaInferior ??
+                null;
 
 
-            const upperBand =
+            const upper =
                 data.upper_band ??
                 data.upperBand ??
-                "--";
-
-
-            const timeframe =
-                data.timeframe ??
-                "1min";
+                data.banda_superior ??
+                data.bandaSuperior ??
+                null;
 
 
             const symbol =
                 data.symbol ??
-                "XAUUSD";
+                data.simbolo ??
+                "XAU/USD";
 
 
-            /* =============================================
+            const timeframe =
+                data.timeframe ??
+                data.time_frame ??
+                "1min";
+
+
+            /* =================================================
                MOSTRAR DATOS
-               ============================================= */
+            ================================================= */
 
-            if (
-                price !== null &&
-                price !== undefined &&
-                !isNaN(parseFloat(price))
-            ) {
-
-                priceElem.innerText =
-                    "$" +
-                    parseFloat(price).toFixed(2);
-
-            } else {
-
-                priceElem.innerText =
-                    "N/A";
-
-            }
+            priceElem.innerText =
+                "$" +
+                numero(price, 2);
 
 
-            if (
-                ema9 !== "--" &&
-                !isNaN(parseFloat(ema9))
-            ) {
-
-                ema9Elem.innerText =
-                    parseFloat(ema9).toFixed(2);
-
-            } else {
-
-                ema9Elem.innerText =
-                    "--";
-
-            }
+            emaElem.innerText =
+                numero(ema, 2);
 
 
-            if (
-                rsi !== "--" &&
-                !isNaN(parseFloat(rsi))
-            ) {
-
-                rsiElem.innerText =
-                    parseFloat(rsi).toFixed(2);
-
-            } else {
-
-                rsiElem.innerText =
-                    "--";
-
-            }
+            rsiElem.innerText =
+                numero(rsi, 2);
 
 
-            if (
-                lowerBand !== "--" &&
-                !isNaN(parseFloat(lowerBand))
-            ) {
-
-                lowerElem.innerText =
-                    parseFloat(lowerBand).toFixed(2);
-
-            } else {
-
-                lowerElem.innerText =
-                    "--";
-
-            }
+            lowerElem.innerText =
+                numero(lower, 2);
 
 
-            if (
-                upperBand !== "--" &&
-                !isNaN(parseFloat(upperBand))
-            ) {
-
-                upperElem.innerText =
-                    parseFloat(upperBand).toFixed(2);
-
-            } else {
-
-                upperElem.innerText =
-                    "--";
-
-            }
+            upperElem.innerText =
+                numero(upper, 2);
 
 
             symbolElem.innerText =
                 symbol === "XAUUSD"
-                    ? "XAUUSD (Oro)"
+                    ? "XAU/USD"
                     : symbol;
 
 
@@ -720,166 +975,49 @@
                 timeframe;
 
 
-            /* =============================================
+            /* =================================================
                SEÑAL
-               ============================================= */
+            ================================================= */
 
-            const signalText =
-                String(signal).toUpperCase();
-
-
-            badge.classList.remove(
-                "loading"
+            actualizarBadge(
+                signal
             );
 
 
-            if (
-                signalText.includes("COMPRA") ||
-                signalText.includes("BUY")
-            ) {
+            /* =================================================
+               API CONECTADA
+            ================================================= */
 
-                badge.className =
-                    "signal-badge compra";
+            apiStatus.className =
+                "api-status";
 
-                badge.innerText =
-                    "COMPRA 🟢";
-
-
-                if (
-                    tg.HapticFeedback
-                ) {
-
-                    tg.HapticFeedback
-                        .notificationOccurred(
-                            "success"
-                        );
-
-                }
-
-            }
+            apiStatus.innerHTML =
+                '<span class="api-dot"></span> API conectada';
 
 
-            else if (
-                signalText.includes("VENTA") ||
-                signalText.includes("SELL")
-            ) {
-
-                badge.className =
-                    "signal-badge venta";
-
-                badge.innerText =
-                    "VENTA 🔴";
-
-
-                if (
-                    tg.HapticFeedback
-                ) {
-
-                    tg.HapticFeedback
-                        .notificationOccurred(
-                            "warning"
-                        );
-
-                }
-
-            }
-
-
-            else {
-
-                badge.className =
-                    "signal-badge espera";
-
-                badge.innerText =
-                    "ESPERAR ⏳";
-
-            }
-
-
-            /* =============================================
-               ESTADO
-               ============================================= */
-
-            statusElem.className =
-                "status status-online";
-
-            statusElem.innerText =
-                "● API conectada";
-
-
-            /* =============================================
+            /* =================================================
                HORA
-               ============================================= */
+            ================================================= */
 
             timeElem.innerText =
                 "Última consulta: " +
-                new Date()
-                    .toLocaleTimeString(
-                        "es-ES"
-                    );
+                obtenerHora();
 
 
-            /* =============================================
-               REINICIAR CUENTA REGRESIVA
-               ============================================= */
+            /* =================================================
+               REINICIAR CONTADOR
+            ================================================= */
 
-            segundosRestantes = 60;
-
-
-            /* =============================================
-               PRIMERA CONSULTA
-               ============================================= */
-
-            if (primeraConsulta) {
-
-                primeraConsulta = false;
-
-                iniciarActualizacionAutomatica();
-
-            }
-
-        }
+            iniciarContador();
 
 
-        catch (error) {
+        } catch (error) {
 
-            console.error(
-                "Error API:",
-                error
-            );
+            mostrarError(error);
 
+        } finally {
 
-            badge.className =
-                "signal-badge venta";
-
-
-            badge.innerText =
-                "ERROR DE CONEXIÓN ❌";
-
-
-            priceElem.innerText =
-                "N/A";
-
-
-            statusElem.className =
-                "status status-error";
-
-
-            statusElem.innerText =
-                "● API desconectada";
-
-
-            timeElem.innerText =
-                "No se pudo consultar la API";
-
-
-            countdownElem.innerText =
-                "Reintentando automáticamente...";
-
-        }
-
-
-        finally {
+            actualizando = false;
 
             button.disabled = false;
 
@@ -889,44 +1027,50 @@
 
 
     /* =====================================================
-       ACTUALIZACIÓN AUTOMÁTICA
-       ===================================================== */
+       CONTADOR DE 60 SEGUNDOS
+    ===================================================== */
 
-    function iniciarActualizacionAutomatica() {
+    function iniciarContador() {
 
-        if (
-            intervaloActualizacion
-        ) {
+        segundosRestantes = 60;
+
+
+        actualizarTextoContador();
+
+
+        if (countdownInterval) {
 
             clearInterval(
-                intervaloActualizacion
+                countdownInterval
             );
 
         }
 
 
-        intervaloActualizacion =
+        countdownInterval =
             setInterval(
-                function() {
+                function () {
 
                     segundosRestantes--;
+
+
+                    actualizarTextoContador();
 
 
                     if (
                         segundosRestantes <= 0
                     ) {
 
-                        segundosRestantes = 60;
+                        clearInterval(
+                            countdownInterval
+                        );
+
+
+                        /* ACTUALIZAR AUTOMÁTICAMENTE */
 
                         pedirSenal();
 
                     }
-
-
-                    countdownElem.innerText =
-                        "Próxima actualización en " +
-                        segundosRestantes +
-                        "s";
 
                 },
                 1000
@@ -936,12 +1080,31 @@
 
 
     /* =====================================================
-       INICIAR AUTOMÁTICAMENTE
-       ===================================================== */
+       TEXTO DEL CONTADOR
+    ===================================================== */
+
+    function actualizarTextoContador() {
+
+        countdownElem.innerText =
+            "Próxima actualización en " +
+            segundosRestantes +
+            "s";
+
+    }
+
+
+    /* =====================================================
+       INICIAR
+    ===================================================== */
 
     window.addEventListener(
         "load",
-        function() {
+        function () {
+
+            /*
+             * Consulta automáticamente al abrir
+             * la aplicación.
+             */
 
             pedirSenal();
 
